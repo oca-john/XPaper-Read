@@ -30,7 +30,7 @@ npm run package
 
 需要 Node.js 22.13.0 或更高版本与 npm；归档重建验证使用 Node.js 26.8.1。`npm ci` 按锁文件恢复依赖，首次安装通常需要网络。归档不包含 `node_modules/`。
 
-`npm run package` 自动构建 `dist/`，然后在 `artifacts/` 生成 `XPaper-Read-1.0.5.xpi` 与 `XPaper-Read-1.0.5-source.zip`。源码修改后再次运行即可重新打包。浏览器集成测试需要额外的浏览器环境，配置方法见 README；这些环境不是插件运行依赖。
+`npm run package` 自动构建 `dist/`，然后在 `artifacts/` 生成 `XPaper-Read-1.0.5.xpi` 与 `XPaper-Read-1.0.5-source.zip`。源码修改后再次运行即可重新打包。浏览器集成测试需要额外的浏览器环境，配置方法见[使用指南](USAGE.md#开发与验证)；这些环境不是插件运行依赖。
 
 ## GitHub 使用
 

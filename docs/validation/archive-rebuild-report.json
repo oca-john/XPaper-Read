@@ -36,7 +36,8 @@
   "finalArchiveAdditions": [
     "docs/validation/amo-lint-report.json",
     "docs/validation/archive-rebuild-report.json",
-    "assets/image-1792568556379.png"
+    "assets/image-1792568556379.png",
+    "docs/USAGE.md"
   ],
   "finalArchiveNote": "Historical rebuild results and testedSourceFileSha256 describe the original tested source ZIP. Afterward, the owner removed ten verification screenshots and replaced the README preview. Documentation now reflects the completed cleanup, and source packaging includes assets/. Runtime code, extension resources, tests, dependency lockfile and the retained XPI are unchanged. The current archive contains the curated source tree; historical hashes are retained as evidence rather than rewritten.",
   "scope": "Build and package integrity only. No live model requests, scientific-accuracy validation, authenticated chat tests, signing or publishing were performed during archiving.",
@@ -118,7 +119,8 @@
   "postRebuildDocumentationUpdates": [
     "README.md",
     "docs/ARCHIVE.md",
-    "docs/VALIDATION.md"
+    "docs/VALIDATION.md",
+    "docs/USAGE.md"
   ],
   "cleanup": {
     "status": "completed_by_user",
@@ -146,12 +148,18 @@
   ],
   "documentationRefresh": {
     "date": "2026-10-21",
-    "sourceFileCount": 66,
+    "sourceFileCount": 67,
     "retainedValidationScreenshots": 10,
     "ownerRemovedValidationScreenshots": 10,
     "readmeImage": "assets/image-1792568556379.png",
     "runtimeSourcesUnchanged": true,
     "testsRerun": false,
-    "retainedXpiSha256": "ffd1556ce021b4bff87c12ab43faed9405227229afd1123b7c229ccbc8a1b50d"
+    "retainedXpiSha256": "ffd1556ce021b4bff87c12ab43faed9405227229afd1123b7c229ccbc8a1b50d",
+    "readmeSimplification": {
+      "originalLines": 274,
+      "currentLines": 61,
+      "detailedGuide": "docs/USAGE.md",
+      "date": "2026-10-21"
+    }
   }
 }
