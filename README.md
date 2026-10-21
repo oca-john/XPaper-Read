@@ -2,6 +2,8 @@
 
 在 Firefox 侧栏中使用 DeepSeek 阅读论文：将当前论文信息与自定义模板组合成结构化提示词，也可通过自己的 API 提取和总结网页、PDF。
 
+[XPaper-Read - 火狐插件商店链接！](https://addons.mozilla.org/zh-CN/firefox/addon/xpaper-read/ "前往火狐插件商店 XPaper-Read 主页！")
+
 **版本 1.0.5 · Firefox 桌面版 142+**
 
 ## 主要功能
