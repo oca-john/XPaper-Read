@@ -1,0 +1,22 @@
+{
+  "browser": "148.0.7778.96",
+  "checks": [
+    "template",
+    "session key",
+    "no send on extract",
+    "SSE",
+    "XSS removal",
+    "export",
+    "300px layout",
+    "history",
+    "PDF text",
+    "PDF range",
+    "PDF images",
+    "scan fallback",
+    "cancel",
+    "HTTP 401"
+  ],
+  "requests": 4,
+  "errors": [],
+  "note": "Synthetic documents and local mocked model API. No live DeepSeek calls."
+}

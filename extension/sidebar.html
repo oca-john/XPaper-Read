@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light" data-accent="blue">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>XPaper-Read</title>
+  <link rel="stylesheet" href="sidebar.css">
+  <link rel="stylesheet" href="appearance.css">
+  <script type="module" src="sidebar.js"></script>
+</head>
+<body class="web-layout">
+  <header id="app-header" class="app-header">
+    <div class="brand"><img src="icons/book.svg" width="24" height="24" alt=""><strong>XPaper-<span>Read</span></strong></div>
+    <span class="version"><span>Version</span> <span>1.0.5</span></span>
+  </header>
+  <nav id="main-tabs" class="tabs" aria-label="侧栏栏目" role="tablist">
+    <button id="tab-web" class="tab active" role="tab" aria-selected="true" aria-controls="panel-web" data-panel="web">DeepSeek</button>
+    <button id="tab-read" class="tab" role="tab" aria-selected="false" aria-controls="panel-read" data-panel="read">API 精读</button>
+    <button id="tab-history" class="tab" role="tab" aria-selected="false" aria-controls="panel-history" data-panel="history">笔记</button>
+    <button id="tab-settings" class="tab" role="tab" aria-selected="false" aria-controls="panel-settings" data-panel="settings">设置</button>
+  </nav>
+  <main>
+    <section id="panel-web" class="panel web-panel" role="tabpanel" aria-labelledby="tab-web">
+      <button id="web-focus-toggle" class="secondary web-focus-toggle" aria-expanded="true" aria-controls="app-header main-tabs web-top" title="折叠顶部工具，让会话占满侧栏">收起顶部 ↑</button>
+      <div class="panel-scroll web-content">
+      <div id="web-top" class="web-top">
+      <div class="mode-note web-mode-note"><span class="web-login-hint">请先登录自己的 DeepSeek 网页版账号，即可使用免费的网页对话。</span><div class="web-login-actions"><button id="web-login" class="text-button">在标签页登录</button><button id="web-reload" class="text-button">刷新</button></div></div>
+      <div class="web-toolbar">
+        <div class="web-paper"><span class="pill">当前文献</span><strong id="web-paper-title">打开一篇论文网页</strong><button id="web-copy-url" class="text-button">复制网址</button></div>
+        <div class="web-actions"><button id="web-fill" class="primary" disabled>✦ 填入阅读提示</button><button id="web-copy-prompt" class="secondary">复制提示词</button><button id="web-edit-template" class="text-button">编辑模板</button></div>
+        <details id="web-prompt-options">
+          <summary>网址与提示词 <span id="web-domain" class="muted"></span></summary>
+          <div class="web-drawer">
+            <label for="web-title">文献标题</label><input id="web-title" autocomplete="off">
+            <label for="web-url">论文网址</label><input id="web-url" type="url" autocomplete="off" spellcheck="false">
+            <button id="web-use-current" class="text-button">使用当前标签页</button>
+            <div class="paper-type-row"><label for="web-paper-type">文章类型</label><select id="web-paper-type" aria-describedby="web-type-status"><option value="auto">自动识别</option><option value="article">Article · 研究型</option><option value="review">Review · 综述型</option></select></div>
+            <p id="web-type-status" class="hint" role="status">类型待确认，模型取得材料后先判断再选模板</p>
+            <label for="web-prompt">将填入的提示词</label><textarea id="web-prompt" rows="7" readonly></textarea>
+            <p class="hint" id="web-source-hint">仅提供网址和模板。发送前请开启 DeepSeek 的联网搜索；没有取得全文时，需在聊天框上传 PDF。</p>
+          </div>
+        </details>
+      </div>
+      </div>
+      <span id="web-status" class="sr-only" role="status">正在连接网页版…</span>
+      <div class="web-frame-wrap">
+        <div id="web-placeholder" class="web-placeholder"><h2>在侧栏直接与 DeepSeek 对话</h2><p>使用 Firefox 中的网页版登录状态。论文仍留在主窗口，模板和网址可一键填入对话。</p><button id="web-connect" class="primary">打开 DeepSeek 侧栏</button></div>
+        <iframe id="web-frame" title="DeepSeek 网页聊天" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads allow-popups-to-escape-sandbox" allow="clipboard-write" hidden></iframe>
+      </div>
+        <details id="web-note-editor" class="web-note-editor" hidden>
+          <summary>核对笔记内容与来源</summary>
+          <div class="web-drawer">
+            <p id="web-note-source" class="hint"></p>
+            <textarea id="web-answer" rows="7" placeholder="粘贴 DeepSeek 的回答。使用网页的复制回答按钮可保留 Markdown 格式。"></textarea>
+            <div class="button-row"><button id="web-save-note" class="primary">保存到笔记</button><button id="web-cancel-note" class="secondary">收起</button></div>
+          </div>
+        </details>
+      </div>
+      <footer class="panel-footer web-notes"><div class="footer-actions"><button id="web-selection" class="secondary" disabled>保存选中回答</button><button id="web-paste-note" class="secondary">粘贴回答</button></div><span class="footer-hint">（可保存为笔记并导出）</span></footer>
+    </section>
+    <section id="panel-read" class="panel" role="tabpanel" aria-labelledby="tab-read" hidden>
+      <p class="mode-note">API 精读需使用你自己的 API Key，并自行在服务商平台充值，调用费用由你承担。</p>
+      <div class="panel-scroll read-scroll">
+      <div class="section-label"><span class="step">01</span> 选择阅读材料 <span class="local-tag">本地提取</span></div>
+      <div class="source-picker">
+        <div class="eyebrow">当前标签页</div>
+        <h1 id="tab-title">正在获取当前网页…</h1>
+        <div id="tab-domain" class="muted truncate">—</div>
+        <div class="capture-row">
+          <select id="capture-kind" aria-label="读取方式">
+            <option value="auto">网页 / PDF 自动识别</option>
+            <option value="selection">只读选中文字</option>
+            <option value="pdf">将当前地址作为 PDF</option>
+          </select>
+          <button id="capture" class="primary" data-idle>读取</button>
+        </div>
+        <div class="import-row">
+          <button id="import-pdf" class="text-button" data-idle><span aria-hidden="true">＋</span> 导入 PDF</button>
+          <span class="separator"></span>
+          <button id="show-paste" class="text-button" data-idle>粘贴正文</button>
+          <input id="pdf-file" type="file" accept="application/pdf,.pdf" hidden>
+        </div>
+        <details class="pdf-options">
+          <summary>PDF 读取选项</summary>
+          <label for="pdf-mode">读取模式</label>
+          <select id="pdf-mode">
+            <option value="text">文字 · 适合普通论文</option>
+            <option value="visual">图文 · 扫描件 / 图表（需视觉模型）</option>
+          </select>
+          <label for="page-range">页码范围 <span class="muted">可选，使用 PDF 物理页码</span></label>
+          <input id="page-range" placeholder="全部，或 1-8,12" autocomplete="off">
+          <p class="hint">图文模式最多 40 页，含所选页的整页图片；文字模式最多 200 页。修改选项后请重新读取。</p>
+        </details>
+      </div>
+      <div id="paste-box" class="card" hidden>
+        <label for="paste-title">文献标题</label>
+        <input id="paste-title" placeholder="可选">
+        <label for="paste-text">正文</label>
+        <textarea id="paste-text" rows="8" placeholder="粘贴摘要或全文。总结只基于你提供的内容。"></textarea>
+        <div class="button-row"><button id="use-paste" class="primary" data-idle>使用这段材料</button><button id="cancel-paste" class="secondary">收起</button></div>
+      </div>
+      <div id="source-card" class="card loaded-source" hidden>
+        <div class="card-top"><span class="pill" id="source-kind">网页正文</span><span id="source-count" class="muted"></span></div>
+        <h2 id="source-title"></h2>
+        <p id="source-scope" class="hint"></p>
+        <p id="tab-changed" class="notice" hidden>当前标签页已变化。下方仍是已读取的材料，点击“读取”可更新。</p>
+        <ul id="source-warnings" class="warnings"></ul>
+        <div id="pdf-link-row" hidden><button id="read-linked-pdf" class="secondary" data-idle>读取网页中的全文 PDF</button><p class="hint" id="pdf-link-host"></p></div>
+        <details id="source-preview">
+          <summary>查看将发送的原文 <span id="preview-label"></span></summary>
+          <pre id="source-text" class="source-text"></pre>
+          <div id="source-images" class="source-images"></div>
+        </details>
+      </div>
+      <div class="section-label second-label"><span class="step">02</span> 梳理研究逻辑 <button id="edit-template" class="text-button">编辑模板 ↗</button></div>
+      <div class="paper-type-row"><label for="read-paper-type">文章类型</label><select id="read-paper-type" aria-describedby="read-type-status" data-idle><option value="auto">自动识别</option><option value="article">Article · 研究型</option><option value="review">Review · 综述型</option></select></div>
+      <p id="read-type-status" class="hint" role="status">读取材料后自动判断 Article / Review，也可手动选择。</p>
+      <div id="reading-framework" class="framework-strip" aria-label="默认阅读框架"><span>先判断文章类型，再使用对应精读框架。</span></div>
+      <div id="key-notice" class="notice" hidden>首次使用：在 <button id="go-settings" class="inline-button">设置</button> 中填入你的 API Key。</div>
+      <button id="summarize" class="primary generate" disabled><span aria-hidden="true">✦</span> 按我的模板精读</button>
+      <p id="send-info" class="hint send-info">读取后可先核对原文，再发送给模型。</p>
+      <div id="activity" class="activity" hidden>
+        <div class="activity-top"><span class="spinner" aria-hidden="true"></span><span id="activity-text" role="status">正在处理…</span><button id="stop" class="stop-button">停止</button></div>
+        <p class="hint">关闭侧栏会停止任务；已生成的部分结果会保存在本机。</p>
+      </div>
+      <div id="error" class="error" role="alert" hidden></div>
+      <article id="result-card" class="result-card" hidden>
+        <header class="result-header"><span class="eyebrow">READING NOTES</span><span id="result-status" class="pill"></span></header>
+        <h2 id="result-title"></h2>
+        <p id="result-meta" class="hint"></p>
+        <div id="result" class="markdown"></div>
+        <p class="result-footer">回到原文核对，尤其是数值、图表定位与贡献判断。</p>
+      </article>
+      <div id="empty-state" class="empty-state">
+        <div class="paper-glyph" aria-hidden="true"><span></span><span></span><span></span></div>
+        <h2>读懂论文如何一步步成立</h2>
+        <p>打开一篇文献，读取正文或 PDF。<br>把结果串成证据，把方法还原成思路。</p>
+      </div>
+      </div>
+      <footer class="panel-footer"><div class="footer-actions"><button id="copy-result" class="secondary" disabled>复制笔记</button><button id="export-result" class="secondary" disabled>导出 Markdown ↓</button></div><span class="footer-hint">（笔记可复制或导出）</span></footer>
+    </section>
+    <section id="panel-history" class="panel history-panel" role="tabpanel" aria-labelledby="tab-history" hidden>
+      <button id="history-show-all" class="secondary history-toggle" aria-pressed="false" aria-controls="history-list">全部记录</button>
+      <div class="panel-scroll history-scroll">
+        <h1 class="section-label history-heading"><span class="section-title">阅读记录</span></h1>
+        <p id="history-summary" class="description" role="status">默认显示最近 5 条，最多保留 30 条阅读记录。</p>
+        <div id="history-list"></div>
+        <div id="clear-confirm" class="notice" hidden>确定删除所有本机阅读记录？<div class="button-row"><button id="confirm-clear" class="danger-button" data-idle>删除全部记录</button><button id="cancel-clear" class="secondary">取消</button></div></div>
+        <p class="hint">笔记保存在这台电脑，包含回答与来源信息，不保存文献全文或 PDF 图片。</p>
+      </div>
+      <footer class="panel-footer"><div class="footer-actions"><button id="clear-history" class="danger-button" data-idle>清空阅读记录</button></div><span class="footer-hint">（本机保存 · 最多 30 条）</span></footer>
+    </section>
+    <section id="panel-settings" class="panel" role="tabpanel" aria-labelledby="tab-settings" hidden>
+      <div class="panel-scroll settings-scroll">
+      <h1 class="section-label settings-heading">设置</h1>
+      <nav class="settings-tabs" role="tablist" aria-label="设置分类">
+        <button id="settings-tab-appearance" class="settings-tab active" role="tab" aria-selected="true" aria-controls="settings-appearance" data-settings-section="settings-appearance">外观</button>
+        <button id="settings-tab-template" class="settings-tab" role="tab" aria-selected="false" aria-controls="settings-template" tabindex="-1" data-settings-section="settings-template">模板定义</button>
+        <button id="settings-tab-api" class="settings-tab" role="tab" aria-selected="false" aria-controls="settings-api" tabindex="-1" data-settings-section="settings-api">API 定义</button>
+        <button id="settings-tab-about" class="settings-tab" role="tab" aria-selected="false" aria-controls="settings-about" tabindex="-1" data-settings-section="settings-about">关于</button>
+      </nav>
+      <section id="settings-appearance" class="settings-section" role="tabpanel" aria-labelledby="settings-tab-appearance" tabindex="-1">
+        <h2 class="section-label settings-heading"><span class="section-title">外观与语言</span></h2>
+        <p class="description">选择舒适的阅读界面。更改即时生效，并自动保存在本机。</p>
+        <fieldset class="appearance-group"><legend>界面语言</legend>
+          <div id="ui-language" class="appearance-options language-options" role="radiogroup" aria-label="界面语言">
+            <button type="button" class="appearance-option active" data-language-choice="zh-CN" role="radio" aria-checked="true" lang="zh-CN"><span>简体中文</span></button>
+            <button type="button" class="appearance-option" data-language-choice="en" role="radio" aria-checked="false" tabindex="-1" lang="en"><span>English</span></button>
+          </div>
+        </fieldset>
+        <p class="hint">仅切换插件界面语言，不改写阅读模板、论文原文或已有笔记。</p>
+        <fieldset class="appearance-group"><legend>明暗主题</legend>
+          <div class="appearance-options" role="radiogroup" aria-label="明暗主题">
+            <button type="button" class="appearance-option active" data-theme-choice="browser" role="radio" aria-checked="true"><span>跟随浏览器主题</span></button>
+            <button type="button" class="appearance-option" data-theme-choice="light" role="radio" aria-checked="false" tabindex="-1"><span>浅色</span></button>
+            <button type="button" class="appearance-option" data-theme-choice="dark" role="radio" aria-checked="false" tabindex="-1"><span>深色</span></button>
+          </div>
+        </fieldset>
+        <p class="hint">默认跟随 Firefox 的明暗偏好；浏览器更改外观时自动切换，也可固定为浅色或深色。</p>
+        <fieldset class="appearance-group"><legend>主题配色</legend>
+          <div class="color-options" role="radiogroup" aria-label="主题配色">
+            <button type="button" class="color-swatch" data-accent-choice="red" role="radio" aria-checked="false" tabindex="-1"><i aria-hidden="true"></i><span>红</span></button>
+            <button type="button" class="color-swatch" data-accent-choice="yellow" role="radio" aria-checked="false" tabindex="-1"><i aria-hidden="true"></i><span>黄</span></button>
+            <button type="button" class="color-swatch" data-accent-choice="green" role="radio" aria-checked="false" tabindex="-1"><i aria-hidden="true"></i><span>绿</span></button>
+            <button type="button" class="color-swatch active" data-accent-choice="blue" role="radio" aria-checked="true"><i aria-hidden="true"></i><span>蓝</span></button>
+            <button type="button" class="color-swatch" data-accent-choice="purple" role="radio" aria-checked="false" tabindex="-1"><i aria-hidden="true"></i><span>紫</span></button>
+            <button type="button" class="color-swatch" data-accent-choice="gray" role="radio" aria-checked="false" tabindex="-1"><i aria-hidden="true"></i><span>灰</span></button>
+          </div>
+        </fieldset>
+        <div class="appearance-preview card"><div class="preview-brand"><img class="theme-logo" src="icons/book.svg" width="32" height="32" alt=""><div><strong>XPaper-Read</strong><p class="hint">界面预览</p></div></div><span class="preview-highlight">高亮效果</span></div>
+        <p class="hint">配色同时用于插件图标、界面底色和高亮。DeepSeek 网页的语言与主题请在网站内设置。</p>
+      </section>
+      <section id="settings-template" class="settings-section" role="tabpanel" aria-labelledby="settings-tab-template" tabindex="-1" hidden>
+        <h2 id="template-heading" class="section-label settings-heading"><span class="section-title">阅读模板</span></h2>
+        <p class="description">Article 梳理原创研究的设计、实施与结果链；Review 梳理综述的主题、证据、分歧与研究缺口。两套模板分别保存，网页版与 API 精读按文章类型使用。</p>
+        <p class="hint">两套默认模板均要求结构化理解，并在末尾提供 Mermaid / Graphviz 分层图源码。类型不明确时，模型先核实材料再选用模板。</p>
+        <div class="appearance-options language-options template-choices" role="radiogroup" aria-label="选择要编辑的模板">
+          <button type="button" id="template-choice-article" class="appearance-option active" role="radio" aria-checked="true" data-template-kind="article"><span>Article · 研究型</span></button>
+          <button type="button" id="template-choice-review" class="appearance-option" role="radio" aria-checked="false" tabindex="-1" data-template-kind="review"><span>Review · 综述型</span></button>
+        </div>
+        <label id="template-editor-label" for="template-text">Article 精读模板</label>
+        <textarea id="template-text" rows="9" spellcheck="false" readonly aria-describedby="template-edit-status"></textarea>
+        <p id="template-edit-status" class="hint" role="status">点击文本框展开编辑，点击外部收起。修改后需保存模板。</p>
+        <p class="hint">保存和载入默认模板仅作用于当前选中的模板；切换时保留未保存的草稿。保存模板不需要 API Key。</p>
+      </section>
+      <section id="settings-api" class="settings-section" role="tabpanel" aria-labelledby="settings-tab-api" tabindex="-1" hidden>
+      <h2 id="api-heading" class="section-label settings-heading"><span class="section-title">API 定义</span></h2>
+      <p class="description">使用 DeepSeek 网页侧栏不需要 Key。如需自动提取全文、图文 PDF 和流式笔记，可在 <a href="https://platform.deepseek.com/api_keys" target="_blank" rel="noopener noreferrer">DeepSeek 开放平台</a> 创建密钥，或配置其他兼容 API。</p>
+      <form id="settings-form">
+        <label for="api-key">API Key</label>
+        <div class="key-input"><input id="api-key" type="password" autocomplete="off" spellcheck="false" placeholder="sk-…" aria-describedby="key-help"><button id="toggle-key" type="button" class="text-button">显示</button></div>
+        <label class="checkbox"><input id="remember-key" type="checkbox"> 在本机记住 API Key</label>
+        <p id="key-help" class="hint">默认只保留在本次 Firefox 会话。勾选后存入浏览器本地存储，未经额外加密；不会同步到云端。</p>
+        <label for="endpoint">API 地址</label>
+        <input id="endpoint" type="url" spellcheck="false" required placeholder="https://api.deepseek.com">
+        <p class="hint">支持兼容 Chat Completions 的 HTTPS 接口；密钥只发往这里。更换服务商时请同时更换对应密钥。</p>
+        <label for="model">模型名称</label>
+        <input id="model" list="models" required autocomplete="off" spellcheck="false">
+        <datalist id="models"><option value="deepseek-flash"></option><option value="deepseek-v4-pro"></option></datalist>
+        <p class="hint">默认 deepseek-flash 支持文字和图片。其他模型能否使用图文模式，以服务商能力为准。</p>
+        <div class="settings-grid"><div><label for="max-tokens">最大输出 token</label><select id="max-tokens"><option value="4096">4,096</option><option value="8192">8,192</option><option value="16384">16,384</option><option value="32768">32,768</option></select></div></div>
+        <label class="checkbox"><input id="thinking" type="checkbox"> 深度思考（DeepSeek 官方接口）</label>
+        <p class="hint">思考会占用输出额度并增加等待；建议同时提高最大输出 token。</p>
+        <p class="hint">测试连接只请求模型列表，不发送文献、不生成内容。</p>
+        <div id="connection-status" class="notice" role="status" hidden></div>
+        <button id="forget-key" class="danger-button" type="button" data-idle>清除已保存的 Key</button>
+      </form>
+      <div class="callout"><strong>发送范围清楚可见</strong><p>只有点击精读后，才会将当前预览的正文、所选 PDF 页面图片、来源信息及模板发往所配置的 API。无自建中转服务器、无遥测。API 使用按服务商规则计费。</p></div>
+      </section>
+      <section id="settings-about" class="settings-section" role="tabpanel" aria-labelledby="settings-tab-about" tabindex="-1" hidden>
+        <div class="card-top"><h2 class="section-label settings-heading"><span class="section-title">关于 XPaper-Read</span></h2><span class="pill">1.0.5</span></div>
+        <p class="description">把阅读变成理解。根据 Article / Review 类型，使用各自的精读模板梳理研究逻辑或综述知识结构，并生成分层图源码。</p>
+        <div class="card author-card"><h3 class="section-label settings-heading"><span class="section-title">作者</span></h3><p class="author-name">Xi Zhang</p><a href="mailto:oca-john@hotmail.com">oca-john@hotmail.com</a></div>
+        <div class="card"><h3 class="section-label settings-heading"><span class="section-title">网页对话与 API 精读</span></h3><p class="hint">DeepSeek 栏目使用你自己的网页版登录状态；API 精读使用你配置的服务和密钥，由你自行充值。网页版的可用功能与使用限制由 DeepSeek 决定。</p></div>
+        <div class="card"><h3 class="section-label settings-heading"><span class="section-title">模板与阅读记录</span></h3><p class="hint">模板由两种阅读方式共用。API 结果自动保存；网页版回答可用底部按钮保存。笔记默认展示最近 5 条，最多在本机保留 30 条，支持导出 Markdown。</p></div>
+        <div class="callout"><strong>回到原文核对</strong><p>网址不代表已获取全文，数值、图表及引用需要核实。“期刊贡献”是基于文章的分析，不代表编辑或审稿人的真实录用原因。</p></div>
+        <details class="help">
+          <summary>侧栏位置与快捷键</summary>
+          <p>右键 Firefox 的侧栏按钮 → 自定义侧栏 → 勾选“将侧栏移至右侧”。旧版布局可在侧栏标题菜单中选择“移动到右侧”。</p>
+          <p>快捷键：<kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>Y</kbd></p>
+        </details>
+      </section>
+      </div>
+      <footer class="panel-footer">
+        <div class="footer-actions" data-settings-footer="settings-appearance"><button id="reset-appearance" class="secondary">恢复默认外观</button></div>
+        <div class="footer-actions" data-settings-footer="settings-template" hidden><button id="save-template" class="primary" data-idle>保存模板</button><button id="reset-template" class="secondary" data-idle>载入默认模板</button></div>
+        <div class="footer-actions" data-settings-footer="settings-api" hidden><button class="primary" id="save-settings" type="submit" form="settings-form" data-idle>保存 API 设置</button><button id="test-api" class="secondary" type="button" data-idle>测试连接</button></div>
+        <span data-settings-footer="settings-about" hidden>XPaper-Read</span>
+        <span id="settings-footer-hint" class="footer-hint">（即时生效 · 自动保存）</span>
+      </footer>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>

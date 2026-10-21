@@ -1,0 +1,40 @@
+:root{--hue:215;--saturation:62%;--surface-saturation:26%;--paper:hsl(var(--hue) var(--surface-saturation) 96%);--card:hsl(var(--hue) var(--surface-saturation) 99%);--ink:hsl(var(--hue) 24% 19%);--muted:hsl(var(--hue) 12% 43%);--green:hsl(var(--hue) var(--saturation) 34%);--green-dark:hsl(var(--hue) var(--saturation) 25%);--sage:hsl(var(--hue) var(--surface-saturation) 91%);--line:hsl(var(--hue) var(--surface-saturation) 82%);--well:hsl(var(--hue) var(--surface-saturation) 89%);--shallow:hsl(var(--hue) var(--surface-saturation) 93%);--edge-light:#ffffffd9;--shadow:hsl(var(--hue) 25% 24% / .18);--shadow-soft:hsl(var(--hue) 25% 24% / .1);--button-ink:#fff;--red:#a12828;--error-bg:#fbece9;--error-line:#e4b7b0;--warm:#855615;--warning:#fff5e5;--toast-bg:var(--green-dark);--toast-ink:#fff;--accent-muted:hsl(var(--hue) var(--saturation) 59%)}
+:root[data-accent=red]{--hue:2;--saturation:57%}
+:root[data-accent=yellow]{--hue:43;--saturation:76%}
+:root[data-accent=yellow][data-theme=light]{--green:hsl(43 76% 28%);--green-dark:hsl(43 76% 22%)}
+:root[data-accent=green]{--hue:145;--saturation:39%}
+:root[data-accent=purple]{--hue:272;--saturation:47%}
+:root[data-accent=gray]{--hue:215;--saturation:0%;--surface-saturation:0%}
+:root[data-theme=dark]{color-scheme:dark;--paper:hsl(var(--hue) var(--surface-saturation) 10%);--card:hsl(var(--hue) var(--surface-saturation) 15%);--ink:hsl(var(--hue) 15% 91%);--muted:hsl(var(--hue) 12% 70%);--green:hsl(var(--hue) var(--saturation) 73%);--green-dark:hsl(var(--hue) var(--saturation) 82%);--sage:hsl(var(--hue) var(--surface-saturation) 20%);--line:hsl(var(--hue) var(--surface-saturation) 32%);--well:hsl(var(--hue) var(--surface-saturation) 8%);--shallow:hsl(var(--hue) var(--surface-saturation) 13%);--edge-light:#ffffff13;--shadow:#00000099;--shadow-soft:#00000066;--button-ink:#10151e;--red:#ffaaa0;--error-bg:#361e24;--error-line:#74434a;--warm:#e9bf7b;--warning:#302615;--toast-bg:var(--green);--toast-ink:#10151e;--accent-muted:hsl(var(--hue) var(--saturation) 62%)}
+:root[data-accent=gray]{--ink:hsl(0 0% 19%);--muted:hsl(0 0% 43%)}
+:root[data-accent=gray][data-theme=dark]{--ink:hsl(0 0% 91%);--muted:hsl(0 0% 70%)}
+.app-header{background:var(--well);box-shadow:inset 0 2px 5px var(--shadow),inset 0 -1px 0 var(--edge-light)}
+.version{background:var(--shallow);box-shadow:inset 0 1px 2px var(--shadow-soft)}
+.tabs{padding:3px 8px;gap:5px;align-items:center;background:var(--well);box-shadow:inset 0 1px 3px var(--shadow),inset 0 -1px 0 var(--edge-light)}
+.tab{display:flex;align-items:center;justify-content:center;flex:1;min-width:0;height:24px;padding:2px 3px;border:1px solid var(--line);border-radius:5px;background:var(--shallow);box-shadow:inset 0 1px 3px var(--shadow-soft),inset 0 -1px 0 var(--edge-light);line-height:16px}
+.tab.active{background:linear-gradient(var(--card),var(--paper));border-color:var(--line);box-shadow:0 2px 3px var(--shadow),inset 0 1px 0 var(--edge-light);color:var(--green)}
+.settings-tabs{grid-template-columns:repeat(4,minmax(0,1fr));background:var(--well);border-color:var(--line);box-shadow:inset 0 2px 4px var(--shadow),inset 0 -1px 0 var(--edge-light)}
+.settings-tab{background:var(--shallow);border-color:var(--line);color:var(--muted);box-shadow:inset 0 1px 3px var(--shadow-soft),inset 0 -1px 0 var(--edge-light)}
+.settings-tab.active{background:linear-gradient(var(--card),var(--paper));border-color:var(--line);color:var(--green);box-shadow:0 2px 4px var(--shadow),inset 0 1px 0 var(--edge-light)}
+:root[lang=en] .settings-tab{font-size:calc(10px + var(--font-increase))}
+:root[lang=en] .settings-tabs{grid-template-columns:repeat(4,minmax(max-content,1fr))}
+.appearance-group{margin:18px 0 0;padding:0;border:0;min-width:0}
+.appearance-group legend{padding:0;margin-bottom:8px}
+.appearance-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:4px;border:1px solid var(--line);border-radius:8px;background:var(--well);box-shadow:inset 0 2px 4px var(--shadow-soft)}
+.language-options{grid-template-columns:repeat(2,minmax(0,1fr))}
+.appearance-option{display:flex;align-items:center;justify-content:center;text-align:center;min-width:0;min-height:28px;padding:4px 5px;border:1px solid var(--line);border-radius:5px;font-size:calc(11px + var(--font-increase));line-height:1.4;white-space:normal;overflow-wrap:anywhere;color:var(--muted);background:var(--shallow);box-shadow:inset 0 1px 2px var(--shadow-soft)}
+.appearance-option>span{min-width:0}
+.appearance-option.active{color:var(--green);background:var(--card);box-shadow:0 2px 4px var(--shadow),inset 0 1px 0 var(--edge-light);font-weight:600}
+.color-options{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px}
+.color-swatch{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:0;padding:6px 1px;border:1px solid var(--line);border-radius:7px;background:var(--shallow);font-size:calc(10px + var(--font-increase));line-height:14px;box-shadow:inset 0 1px 3px var(--shadow-soft)}
+.color-swatch i{display:block;width:17px;height:17px;border-radius:50%;background:var(--swatch);box-shadow:inset 0 1px 2px #0003,0 1px 0 var(--edge-light)}
+.color-swatch.active{border-color:var(--green);background:var(--card);color:var(--green);font-weight:600;box-shadow:0 2px 4px var(--shadow),inset 0 1px 0 var(--edge-light)}
+[data-accent-choice=red]{--swatch:#bb4141}[data-accent-choice=yellow]{--swatch:#d6a725}[data-accent-choice=green]{--swatch:#429564}[data-accent-choice=blue]{--swatch:#447acb}[data-accent-choice=purple]{--swatch:#9662bf}[data-accent-choice=gray]{--swatch:#7c838d}
+.appearance-preview{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.preview-brand{display:flex;align-items:center;gap:9px;min-width:0}
+.preview-brand strong{font-size:calc(12px + var(--font-increase))}.preview-brand .hint{margin:0}
+.preview-highlight{padding:4px 7px;border-radius:5px;background:var(--green);color:var(--button-ink);font-size:calc(10px + var(--font-increase));white-space:nowrap}
+.primary{color:var(--button-ink)}
+.toast{background:var(--toast-bg);color:var(--toast-ink)}
+.panel-scroll{scrollbar-color:var(--line) transparent}
+:root[lang=en] .web-actions .text-button{font-size:calc(10px + var(--font-increase))}

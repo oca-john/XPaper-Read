@@ -1,0 +1,77 @@
+{
+  "count": 5,
+  "summary": {
+    "errors": 0,
+    "notices": 0,
+    "warnings": 5
+  },
+  "metadata": {
+    "id": "xpaper-read@local.extension",
+    "manifestVersion": 2,
+    "name": "XPaper-Read",
+    "type": 1,
+    "version": "1.0.5",
+    "firefoxMinVersion": "142.0",
+    "firefoxStrictMinVersion": 142,
+    "experimentApiPaths": {},
+    "totalScannedFileSize": 4112535,
+    "emptyFiles": [],
+    "jsLibs": {},
+    "unknownMinifiedFiles": [
+      "background.js",
+      "deepseek.js",
+      "vendor/wasm/jbig2_nowasm_fallback.js",
+      "vendor/wasm/openjpeg_nowasm_fallback.js",
+      "sidebar.js"
+    ]
+  },
+  "errors": [],
+  "notices": [],
+  "warnings": [
+    {
+      "_type": "warning",
+      "code": "UNSAFE_VAR_ASSIGNMENT",
+      "message": "Unsafe assignment to innerHTML",
+      "description": "Due to both security and performance concerns, this may not be set using dynamic values which have not been adequately sanitized. This can lead to security issues or fairly serious performance degradation.",
+      "column": 15,
+      "file": "extract.js",
+      "line": 1139
+    },
+    {
+      "_type": "warning",
+      "code": "UNSAFE_VAR_ASSIGNMENT",
+      "message": "Unsafe assignment to innerHTML",
+      "description": "Due to both security and performance concerns, this may not be set using dynamic values which have not been adequately sanitized. This can lead to security issues or fairly serious performance degradation.",
+      "column": 13,
+      "file": "extract.js",
+      "line": 1384
+    },
+    {
+      "_type": "warning",
+      "code": "UNSAFE_VAR_ASSIGNMENT",
+      "message": "Unsafe call to import for argument 0",
+      "description": "Due to both security and performance concerns, this may not be set using dynamic values which have not been adequately sanitized. This can lead to security issues or fairly serious performance degradation.",
+      "column": 28,
+      "file": "sidebar.js",
+      "line": 16610
+    },
+    {
+      "_type": "warning",
+      "code": "UNSAFE_VAR_ASSIGNMENT",
+      "message": "Unsafe assignment to innerHTML",
+      "description": "Due to both security and performance concerns, this may not be set using dynamic values which have not been adequately sanitized. This can lead to security issues or fairly serious performance degradation.",
+      "column": 9,
+      "file": "sidebar.js",
+      "line": 31444
+    },
+    {
+      "_type": "warning",
+      "code": "UNSAFE_VAR_ASSIGNMENT",
+      "message": "Unsafe call to import for argument 0",
+      "description": "Due to both security and performance concerns, this may not be set using dynamic values which have not been adequately sanitized. This can lead to security issues or fairly serious performance degradation.",
+      "column": 25,
+      "file": "vendor/pdf.worker.mjs",
+      "line": 9629
+    }
+  ]
+}

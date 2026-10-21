@@ -1,0 +1,49 @@
+{
+  "manifest_version": 2,
+  "name": "XPaper-Read",
+  "version": "1.0.5",
+  "author": "Xi Zhang",
+  "description": "用 DeepSeek 按你的研究框架精读网页和 PDF，在侧栏梳理问题、设计、实施、结果逻辑链与贡献。",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "xpaper-read@local.extension",
+      "strict_min_version": "142.0",
+      "data_collection_permissions": {
+        "required": ["websiteContent", "authenticationInfo"]
+      }
+    }
+  },
+  "permissions": ["activeTab", "scripting", "storage", "tabs", "clipboardWrite", "webRequest", "webRequestBlocking", "https://api.deepseek.com/*", "https://chat.deepseek.com/*"],
+  "optional_permissions": ["https://*/*", "http://*/*"],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [{
+    "matches": ["https://chat.deepseek.com/*"],
+    "js": ["deepseek.js"],
+    "all_frames": true,
+    "run_at": "document_idle"
+  }],
+  "browser_action": {
+    "default_title": "打开 XPaper-Read",
+    "default_icon": "icons/book.svg"
+  },
+  "sidebar_action": {
+    "default_title": "XPaper-Read",
+    "default_panel": "sidebar.html",
+    "default_icon": "icons/book.svg",
+    "open_at_install": true
+  },
+  "icons": {
+    "48": "icons/book.svg",
+    "96": "icons/book.svg"
+  },
+  "commands": {
+    "_execute_sidebar_action": {
+      "suggested_key": { "default": "Alt+Shift+Y" },
+      "description": "打开文献精读侧栏"
+    }
+  },
+  "content_security_policy": "script-src 'self'; object-src 'none'; base-uri 'none'; connect-src https: http://localhost:* http://127.0.0.1:* 'self'; img-src 'self' data: blob:; style-src 'self'; worker-src 'self'; font-src 'self' data:; frame-src https://chat.deepseek.com"
+}
