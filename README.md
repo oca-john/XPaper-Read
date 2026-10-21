@@ -30,8 +30,6 @@
 <details>
 <summary>查看界面预览</summary>
 
-![API 精读侧栏](assets/image-1792568556379.png)
-
 ![Article 与 Review 模板设置](docs/validation/review-template.png)
 
 截图使用合成测试材料。
