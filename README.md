@@ -4,7 +4,7 @@
 
 [XPaper-Read - 火狐插件商店链接！](https://addons.mozilla.org/zh-CN/firefox/addon/xpaper-read/ "前往火狐插件商店 XPaper-Read 主页！")
 
-**版本 1.0.5 · Firefox 桌面版 142+**
+**版本 1.0.8 · Firefox 桌面版 142+**
 
 ## 主要功能
 
@@ -16,23 +16,23 @@
 ## 安装
 
 1. 在 Firefox 打开 `about:debugging#/runtime/this-firefox`。
-2. 点击 **临时载入附加组件…**，选择 `XPaper-Read-1.0.5.xpi`，或源码构建后的 `dist/manifest.json`。
+2. 点击 **临时载入附加组件…**，选择 `XPaper-Read-1.0.8.xpi`，或源码构建后的 `dist/manifest.json`。
 3. 点击扩展图标，或按 **Alt + Shift + Y** 打开侧栏。
 
 当前 XPI 尚未签名，临时加载在浏览器重启后失效。永久安装与商店提交见 [提交说明](docs/AMO-SUBMISSION.md)。
 
 ## 开始阅读
 
-**网页版**：打开论文 → 在侧栏登录 DeepSeek → 点击填入阅读提示 → 检查提示词并发送。网址无法获取全文时，可在 DeepSeek 中上传 PDF。
+**网页版**：打开论文 → 在侧栏登录 DeepSeek → 点击顶部胶囊切换 **Article文章**（默认）或 **Review文章** → 点击填入提示词 → 检查提示词并发送。网址无法获取全文时，可在 DeepSeek 中上传 PDF。
 
 **API 精读**：在 **设置 → API 定义** 配置接口和密钥 → 读取论文 → 核对材料 → 按模板精读。
 
-在 **设置 → 模板定义** 分别编辑 Article 和 Review 模板。插件会根据可用线索初判文章类型，也支持手动选择。模型输出需结合原文核对。
+在 **设置 → 模板定义** 分别编辑 Article 和 Review 模板。网页版与 API 精读共用文章类型胶囊，点击控件任意位置都会切换类型，默认 Article；对应模板由用户选择。DeepSeek 页面使用全部可用宽度；API 精读、笔记和设置内容居中，占可用宽度的 90%。模型输出需结合原文核对。
 
 <details>
 <summary>查看界面预览</summary>
 
-![Article 与 Review 模板设置](docs/validation/review-template.png)
+![DeepSeek 顶部 Article 与 Review 切换](docs/validation/1.0.8/web-type-light-blue.png)
 
 截图使用合成测试材料。
 

@@ -1,4 +1,4 @@
-import { selectReadingPlan } from "./paper-type.js";
+import { templateFor } from "./paper-type.js";
 
 export const DEEPSEEK_ORIGIN = "https://chat.deepseek.com";
 export const DEEPSEEK_URL = `${DEEPSEEK_ORIGIN}/`;
@@ -35,9 +35,21 @@ export function prepareWebSource(url, title = "") {
   };
 }
 
-export function buildWebPrompt(source, settings, mode = "auto") {
+// Web reading follows the user's selection; source titles never choose a template.
+export function selectWebReadingPlan(settings, type = "article") {
+  type = type === "review" ? "review" : "article";
+  const name = type === "review" ? "Review（综述文章）" : "Article（研究文章）";
+  const template = `【已选择的文章类型】
+${name}。请直接按我选择的类型和下方模板精读。
+
+【${type === "review" ? "Review" : "Article"} 精读模板】
+${templateFor(typeof settings === "string" ? { template: settings } : settings, type)}`;
+  return { type, mode: type, reason: "manual", template };
+}
+
+export function buildWebPrompt(source, settings, type = "article") {
   const clean = prepareWebSource(source.url, source.title);
-  const { template } = selectReadingPlan(clean, typeof settings === "string" ? { template: settings } : settings, mode);
+  const { template } = selectWebReadingPlan(settings, type);
   return `请作为严谨的学术阅读助手，用中文精读下面链接所指的论文，并严格遵循我的阅读模板。
 
 【论文线索】
@@ -54,7 +66,7 @@ ${JSON.stringify({ title: clean.title, url: clean.url }, null, 2)}
 ${template.trim()}
 
 【证据与输出要求】
-- 用 Markdown 按所选类型的模板分栏组织：Article 梳理研究问题、设计、实施与结果链；Review 梳理主题、证据比较、争议、综合结论与研究缺口。只展开适用的一套框架，按该模板在末尾给出可视化图源码。
+- 用 Markdown 按我选择的模板分栏组织，按该模板在末尾给出可视化图源码。
 - 引用实际看到的章节、图表或 PDF 页码；没有定位依据就明确说明，不编造定位。
 - 区分作者报告、你的推断和缺失证据。数值、样本量、统计检验、期刊名和 DOI 只采用实际来源中可核对的信息。
 - 关于为什么发表于该期刊，只做“基于论文内容的贡献判断”，不臆测编辑或审稿人的真实录用原因。

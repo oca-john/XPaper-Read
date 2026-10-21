@@ -17,7 +17,7 @@ export function fillComposer(prompt, doc = document) {
   if (!el) throw new Error("没有找到聊天输入框。请先完成登录并打开对话；也可复制提示词后手动粘贴。");
   const existing = el.tagName === "TEXTAREA" ? el.value : el.textContent;
   if (existing === prompt) return { message: "提示词已在输入框中。检查联网搜索选项后，点击 DeepSeek 的发送按钮。" };
-  if (existing.trim()) throw new Error("输入框中已有草稿，已保留。请先发送或清空草稿，再填入阅读提示。");
+  if (existing.trim()) throw new Error("输入框中已有草稿，已保留。请先发送或清空草稿，再填入提示词。");
   const win = doc.defaultView;
   el.focus();
   if (el.tagName === "TEXTAREA") {

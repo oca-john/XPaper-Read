@@ -11,7 +11,7 @@
 <body class="web-layout">
   <header id="app-header" class="app-header">
     <div class="brand"><img src="icons/book.svg" width="24" height="24" alt=""><strong>XPaper-<span>Read</span></strong></div>
-    <span class="version"><span>Version</span> <span>1.0.5</span></span>
+    <span class="version"><span>Version</span> <span>1.0.8</span></span>
   </header>
   <nav id="main-tabs" class="tabs" aria-label="侧栏栏目" role="tablist">
     <button id="tab-web" class="tab active" role="tab" aria-selected="true" aria-controls="panel-web" data-panel="web">DeepSeek</button>
@@ -27,15 +27,18 @@
       <div class="mode-note web-mode-note"><span class="web-login-hint">请先登录自己的 DeepSeek 网页版账号，即可使用免费的网页对话。</span><div class="web-login-actions"><button id="web-login" class="text-button">在标签页登录</button><button id="web-reload" class="text-button">刷新</button></div></div>
       <div class="web-toolbar">
         <div class="web-paper"><span class="pill">当前文献</span><strong id="web-paper-title">打开一篇论文网页</strong><button id="web-copy-url" class="text-button">复制网址</button></div>
-        <div class="web-actions"><button id="web-fill" class="primary" disabled>✦ 填入阅读提示</button><button id="web-copy-prompt" class="secondary">复制提示词</button><button id="web-edit-template" class="text-button">编辑模板</button></div>
+        <div class="web-actions">
+          <button id="web-fill" class="primary" disabled>✦ 填入提示词</button><button id="web-copy-prompt" class="secondary">复制提示词</button><button id="web-edit-template" class="text-button">编辑模板</button>
+          <button type="button" id="web-paper-type" class="paper-type-switch web-type-options" role="switch" aria-label="文章类型：Article文章 / Review文章" aria-checked="false" data-paper-type="article">
+            <span id="web-type-article" class="paper-type-label active" data-type-label="article">Article文章</span><span id="web-type-review" class="paper-type-label" data-type-label="review">Review文章</span>
+          </button>
+        </div>
         <details id="web-prompt-options">
           <summary>网址与提示词 <span id="web-domain" class="muted"></span></summary>
           <div class="web-drawer">
             <label for="web-title">文献标题</label><input id="web-title" autocomplete="off">
             <label for="web-url">论文网址</label><input id="web-url" type="url" autocomplete="off" spellcheck="false">
             <button id="web-use-current" class="text-button">使用当前标签页</button>
-            <div class="paper-type-row"><label for="web-paper-type">文章类型</label><select id="web-paper-type" aria-describedby="web-type-status"><option value="auto">自动识别</option><option value="article">Article · 研究型</option><option value="review">Review · 综述型</option></select></div>
-            <p id="web-type-status" class="hint" role="status">类型待确认，模型取得材料后先判断再选模板</p>
             <label for="web-prompt">将填入的提示词</label><textarea id="web-prompt" rows="7" readonly></textarea>
             <p class="hint" id="web-source-hint">仅提供网址和模板。发送前请开启 DeepSeek 的联网搜索；没有取得全文时，需在聊天框上传 PDF。</p>
           </div>
@@ -113,9 +116,9 @@
         </details>
       </div>
       <div class="section-label second-label"><span class="step">02</span> 梳理研究逻辑 <button id="edit-template" class="text-button">编辑模板 ↗</button></div>
-      <div class="paper-type-row"><label for="read-paper-type">文章类型</label><select id="read-paper-type" aria-describedby="read-type-status" data-idle><option value="auto">自动识别</option><option value="article">Article · 研究型</option><option value="review">Review · 综述型</option></select></div>
-      <p id="read-type-status" class="hint" role="status">读取材料后自动判断 Article / Review，也可手动选择。</p>
-      <div id="reading-framework" class="framework-strip" aria-label="默认阅读框架"><span>先判断文章类型，再使用对应精读框架。</span></div>
+      <div class="paper-type-row"><span class="paper-type-heading">文章类型</span><button type="button" id="read-paper-type" class="paper-type-switch" role="switch" aria-label="文章类型：Article文章 / Review文章" aria-describedby="read-type-status" aria-checked="false" data-paper-type="article" data-idle><span id="read-type-article" class="paper-type-label active" data-type-label="article">Article文章</span><span id="read-type-review" class="paper-type-label" data-type-label="review">Review文章</span></button></div>
+      <p id="read-type-status" class="hint" role="status">已选择：Article文章</p>
+      <div id="reading-framework" class="framework-strip" aria-label="默认阅读框架"><span>领域问题</span><i>→</i><span>设计巧思</span><i>→</i><span>实施路径</span><i>→</i><span>结果链条</span><i>→</i><span>研究贡献</span></div>
       <div id="key-notice" class="notice" hidden>首次使用：在 <button id="go-settings" class="inline-button">设置</button> 中填入你的 API Key。</div>
       <button id="summarize" class="primary generate" disabled><span aria-hidden="true">✦</span> 按我的模板精读</button>
       <p id="send-info" class="hint send-info">读取后可先核对原文，再发送给模型。</p>
@@ -193,7 +196,7 @@
       <section id="settings-template" class="settings-section" role="tabpanel" aria-labelledby="settings-tab-template" tabindex="-1" hidden>
         <h2 id="template-heading" class="section-label settings-heading"><span class="section-title">阅读模板</span></h2>
         <p class="description">Article 梳理原创研究的设计、实施与结果链；Review 梳理综述的主题、证据、分歧与研究缺口。两套模板分别保存，网页版与 API 精读按文章类型使用。</p>
-        <p class="hint">两套默认模板均要求结构化理解，并在末尾提供 Mermaid / Graphviz 分层图源码。类型不明确时，模型先核实材料再选用模板。</p>
+        <p class="hint">两套默认模板均要求结构化理解，并在末尾提供 Mermaid / Graphviz 分层图源码。网页版与 API 精读均使用胶囊控件选择文章类型。</p>
         <div class="appearance-options language-options template-choices" role="radiogroup" aria-label="选择要编辑的模板">
           <button type="button" id="template-choice-article" class="appearance-option active" role="radio" aria-checked="true" data-template-kind="article"><span>Article · 研究型</span></button>
           <button type="button" id="template-choice-review" class="appearance-option" role="radio" aria-checked="false" tabindex="-1" data-template-kind="review"><span>Review · 综述型</span></button>
@@ -228,7 +231,7 @@
       <div class="callout"><strong>发送范围清楚可见</strong><p>只有点击精读后，才会将当前预览的正文、所选 PDF 页面图片、来源信息及模板发往所配置的 API。无自建中转服务器、无遥测。API 使用按服务商规则计费。</p></div>
       </section>
       <section id="settings-about" class="settings-section" role="tabpanel" aria-labelledby="settings-tab-about" tabindex="-1" hidden>
-        <div class="card-top"><h2 class="section-label settings-heading"><span class="section-title">关于 XPaper-Read</span></h2><span class="pill">1.0.5</span></div>
+        <div class="card-top"><h2 class="section-label settings-heading"><span class="section-title">关于 XPaper-Read</span></h2><span class="pill">1.0.8</span></div>
         <p class="description">把阅读变成理解。根据 Article / Review 类型，使用各自的精读模板梳理研究逻辑或综述知识结构，并生成分层图源码。</p>
         <div class="card author-card"><h3 class="section-label settings-heading"><span class="section-title">作者</span></h3><p class="author-name">Xi Zhang</p><a href="mailto:oca-john@hotmail.com">oca-john@hotmail.com</a></div>
         <div class="card"><h3 class="section-label settings-heading"><span class="section-title">网页对话与 API 精读</span></h3><p class="hint">DeepSeek 栏目使用你自己的网页版登录状态；API 精读使用你配置的服务和密钥，由你自行充值。网页版的可用功能与使用限制由 DeepSeek 决定。</p></div>

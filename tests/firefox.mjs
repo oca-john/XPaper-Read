@@ -21,7 +21,7 @@ options.setPreference("browser.download.open_pdf_attachments_inline", true);
 const service = new firefox.ServiceBuilder(process.env.GECKODRIVER).addArguments("--allow-system-access");
 const builder = new Builder().forBrowser("firefox").setFirefoxOptions(options).setFirefoxService(service);
 let driver;
-const report = { extensionVersion: "1.0.5", checks: [], layouts: [], chromeLayouts: [], note: "Stock Firefox, isolated headless profile; local simulated model API. Embedded public DeepSeek page is observed without signing in or sending a message." };
+const report = { extensionVersion: "1.0.8", checks: [], layouts: [], chromeLayouts: [], note: "Stock Firefox, isolated headless profile; local simulated model API. Embedded public DeepSeek page is observed without signing in or sending a message." };
 const check = text => { report.checks.push(text); console.log(`PASS: ${text}`); };
 async function chrome() {
   await driver.switchTo().defaultContent();
@@ -106,6 +106,28 @@ try {
   assert.equal(await evaluate('document.getElementById("tab-web").getAttribute("aria-selected")'), "true");
   assert.equal(await evaluate('document.getElementById("panel-web").hidden'), false);
   check("Integrated DeepSeek panel is the default native sidebar view");
+  assert.equal(await evaluate('document.getElementById("web-paper-type").dataset.paperType'), "article");
+  assert.match(await evaluate('document.getElementById("web-prompt").value'), /Article（研究文章）/);
+  assert.doesNotMatch(await evaluate('document.getElementById("web-prompt").value'), /先判断文章类型|【Review 精读模板】/);
+  await click("web-type-review");
+  assert.equal(await evaluate('document.getElementById("web-paper-type").dataset.paperType'), "review");
+  assert.match(await evaluate('document.getElementById("web-prompt").value'), /【Review 精读模板】/);
+  assert.doesNotMatch(await evaluate('document.getElementById("web-prompt").value'), /先判断文章类型|【Article 精读模板】/);
+  await driver.wait(async () => {
+    report.capsuleReviewGeometry = await evaluate(`(() => {
+      const group = document.getElementById("web-paper-type"), box = group.getBoundingClientRect();
+      const thumb = getComputedStyle(group, "::before"), label = group.querySelector(".active").getBoundingClientRect();
+      const left = box.left + group.clientLeft + parseFloat(thumb.left) + new DOMMatrixReadOnly(thumb.transform).m41;
+      const width = parseFloat(thumb.width) + (thumb.boxSizing === "border-box" ? 0 : parseFloat(thumb.borderLeftWidth) + parseFloat(thumb.borderRightWidth));
+      return {leftInset:left-box.left,rightInset:box.right-left-width,leftDelta:left-label.left,rightDelta:left+width-label.right};
+    })()`);
+    const geometry = report.capsuleReviewGeometry;
+    return geometry.leftInset >= 3.5 && geometry.rightInset >= 3.5 && Math.abs(geometry.leftDelta) < .75 && Math.abs(geometry.rightDelta) < .75;
+  }, 3000, "Review thumb should align with its label and stay clear of the outer border");
+  await click("web-edit-template");
+  assert.equal(await evaluate('document.getElementById("template-choice-review").getAttribute("aria-checked")'), "true");
+  await click("tab-web"); await click("web-type-article");
+  check("Native Firefox defaults to Article; the top selector updates only the chosen prompt and opens the matching editor without classification");
   assert.equal(await evaluate('document.documentElement.dataset.themePreference'), "browser");
   // Extension sidebars follow browser chrome, not the separate website override.
   // Change built-in themes only in this isolated test profile.
@@ -181,7 +203,7 @@ try {
     })()`);
     report.layouts.push(layout);
     assert.ok(Math.abs(layout.panel.height - layout.main.height) < 1 && Math.abs(layout.panel.y - layout.main.y) < 1, `${width}px: native chat fills available height`);
-    assert.ok(layout.frame.x < 1 && Math.abs(layout.frame.width - layout.width) < 1, `${width}px: native iframe fills width`);
+    assert.ok(Math.abs(layout.frame.x) < 1 && Math.abs(layout.frame.width - layout.width) < 1, `${width}px: native iframe fills the sidebar width`);
     assert.ok(layout.frame.height > 400 && layout.notes.bottom <= layout.height + 1, `${width}px: native chat stays tall with notes visible`);
     if (width === 1000) {
       await writeFile(join(root, "artifacts", "qa", "firefox-web-wide-native.png"), Buffer.from(await driver.takeScreenshot(), "base64"));
@@ -213,7 +235,7 @@ try {
     await click("tab-web");
   }
   check("Real Firefox sidebar resizes from 300 to 1000 px with a full-height chat and full-width panels");
-  check("Native modes share the compact header, horizontal Version 1.0.5 badge and 25px footer that stays fixed during scrolling");
+  check("Native modes share the compact header, horizontal Version 1.0.8 badge and 25px footer that stays fixed during scrolling");
   await click("tab-settings");
   await click("settings-tab-appearance");
   await evaluate('document.querySelector(\'[data-language-choice="en"]\').click()');
@@ -263,7 +285,7 @@ try {
   check("Native Firefox saves Review separately and retains the Article template");
   await click("settings-tab-about");
   assert.equal(await evaluate('document.getElementById("settings-template").hidden'), true);
-  assert.equal(await evaluate('document.querySelector("#settings-about .pill").textContent'), "1.0.5");
+  assert.equal(await evaluate('document.querySelector("#settings-about .pill").textContent'), "1.0.8");
   assert.equal(await evaluate('document.querySelector(".author-name").textContent'), "Xi Zhang");
   assert.equal(await evaluate('document.querySelector(".author-card a").getAttribute("href")'), "mailto:oca-john@hotmail.com");
   await writeFile(join(root, "artifacts", "qa", "firefox-about-native.png"), Buffer.from(await driver.takeScreenshot(), "base64"));
@@ -295,7 +317,8 @@ try {
   await fill("paste-title", "Neural plasticity: a systematic review");
   await fill("paste-text", "In this review, we synthesize evidence and compare conflicting results. ".repeat(20));
   await click("use-paste"); await ready();
-  await waitText("read-type-status", "自动初判：Review");
+  await click("read-paper-type");
+  await waitText("read-type-status", "已选择：Review文章");
   await click("summarize"); await ready(); await waitText("result-status", "已完成", 25000);
   assert.match(server.requests.at(-1).body.messages[1].content, /NATIVE_REVIEW_TEMPLATE/);
   assert.doesNotMatch(server.requests.at(-1).body.messages[1].content, /核心结果逐个推进/);

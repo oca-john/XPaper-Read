@@ -1,4 +1,43 @@
-# 1.0.5 验证记录
+# 验证记录
+
+## 1.0.8：DeepSeek 全宽与滑块边界修正（2026-10-21）
+
+- DeepSeek 顶部工具、嵌入聊天和笔记编辑区域恢复全宽。API 精读、笔记和设置继续使用居中的 90% 内容宽度。
+- 胶囊滑块的伪元素显式使用 `box-sizing:border-box`，使边框包含在宽度与平移距离中，修正 Review 状态向右偏移、与外框重叠的问题。两个页面共用此修复。
+- `npm run test:web`：17 组流程通过，验证 300–1200 px 的聊天全宽、折叠顶部后的全宽，以及其他页面的 90% 居中布局。[报告](validation/1.0.8/web-browser-report.json)。
+- `npm run test:appearance`：10 组流程、192 组界面测量通过。新增两种语言、明暗主题、六种配色和宽窄侧栏中，网页版与 API 的 Article / Review 滑块边界与文字区域对齐检查，确认滑块与外框保持间距。[报告](validation/1.0.8/appearance-report.json)。
+- `npm run test:firefox`：Firefox 158.0，17 组流程通过。原生 Review 滑块右侧间距为约 4 px，两边与所选文字区域的偏差均小于 0.001 px；报告新增 `capsuleReviewGeometry` 实测数据。[报告](validation/1.0.8/firefox-report.json)。
+- 构建成功；依赖锁除项目版本号外与 1.0.7 一致。1.0.8 XPI 为未签名开发包。
+
+截图：[浅色 Article](validation/1.0.8/web-type-light-blue.png)、[深色 Review](validation/1.0.8/web-type-dark-purple.png)、[窄侧栏英文](validation/1.0.8/web-type-narrow-en.png)、[API 精读](validation/1.0.8/api-type-capsule.png)。
+
+## 1.0.7：复用胶囊与统一内容宽度（2026-10-21）
+
+- 将“填入阅读提示”改为“填入提示词”，类型名称缩短为“Article文章 / Review文章”。网页版与 API 精读复用同一个胶囊组件，默认 Article；点击选中区域、另一侧文字、间隙、内边距或边缘均切换一次，支持键盘和禁用状态。
+- DeepSeek 顶部工具、聊天与笔记编辑区域，以及 API 精读、笔记和设置的内容统一为可用宽度的 90%，并保持水平居中。
+- `npm test`：39 项通过；`npm run test:browser`：14 组流程通过。
+- `npm run test:templates`：7 组流程通过，新增两个胶囊各 7 个实际点击位置的检查；验证类型、开关状态、模板编辑入口、API 请求与记录一致，以及生成时禁用、读取新材料恢复 Article。[报告](validation/1.0.7/templates-report.json)。
+- `npm run test:web`：17 组流程通过，在 300 / 520 / 1200 px 下检查四个页面的 90% 居中内容，包括聊天框、API 生成按钮、文章类型行和状态文字。[报告](validation/1.0.7/web-browser-report.json)。
+- `npm run test:appearance`：10 组流程、192 组界面测量通过。网页版与 API 的两种类型均检查了中英文、明暗主题、六种配色、280 / 1000 px 宽度下的胶囊外形、凸起滑块、主题颜色和文字完整显示。[报告](validation/1.0.7/appearance-report.json)。
+- `npm run test:firefox`：Firefox 158.0 的 17 组原生集成流程通过，覆盖胶囊切换、90% 聊天宽度、模板、API 与 PDF。真实 DeepSeek 仅只读检查未登录页面。[报告](validation/1.0.7/firefox-report.json)。
+- 构建成功，扩展检查 0 错误、0 提示、5 条原有第三方依赖告警；依赖锁除项目版本号外与 1.0.6 一致。XPI 为未签名开发包。
+
+截图：[网页版浅色](validation/1.0.7/web-type-light-blue.png)、[网页版深色](validation/1.0.7/web-type-dark-purple.png)、[窄侧栏英文](validation/1.0.7/web-type-narrow-en.png)、[API 精读](validation/1.0.7/api-type-capsule.png)。
+
+## 1.0.6：DeepSeek 顶部文章类型切换（2026-10-21）
+
+网页版新增与主题一致的内凹底座、凸起选中按钮，默认 Article，Review 由用户手动选择。提示词只包含所选模板，不再使用标题初判，也不再要求模型先判断 Article / Review。填入、复制、编辑模板和导入笔记的类型记录保持一致。原有 API 判型逻辑和依赖版本未修改。
+
+- `npm test`：39 项通过，包括默认 Article、Review 选择、旧自动参数回退为 Article、单模板容量、未选模板不参与验证，以及 API 自动判型回归。
+- `npm run test:templates`：7 组流程通过，覆盖实际填入与剪贴板内容、键盘切换、既有聊天草稿保护、对应模板编辑、笔记来源、标题变化保留选择、新网址恢复 Article、重载和 API 模板分流。使用本地聊天及 API 替身，报告见 [templates-report.json](validation/1.0.6/templates-report.json)。
+- `npm run test:web`：17 组流程通过，验证原有输入桥接、草稿保护、笔记和布局，报告见 [web-browser-report.json](validation/1.0.6/web-browser-report.json)。
+- `npm run test:appearance`：10 组流程通过，192 组界面测量；在 2 种语言、2 种明暗、6 种配色与 280 / 1000 px 宽度下逐一检查两种选中状态的主题颜色、凹凸样式、文字完整显示和宽侧栏右侧定位。报告见 [appearance-report.json](validation/1.0.6/appearance-report.json)。另逐张检查了 [浅色蓝色](validation/1.0.6/web-type-light-blue.png)、[深色紫色](validation/1.0.6/web-type-dark-purple.png) 和 [280 px 英文](validation/1.0.6/web-type-narrow-en.png) 的实际渲染截图。
+- `npm run test:firefox`：Firefox 158.0，17 组原生集成检查通过，新增顶部默认选择、切换后的单模板提示词和对应编辑入口验证。使用隔离配置，报告见 [firefox-report.json](validation/1.0.6/firefox-report.json)。真实 DeepSeek 页面仅验证未登录页面的加载和桥接连接；没有发送真实聊天。
+- `npm run build` 与 `npm run lint:extension`：构建成功，扩展检查 0 错误、0 提示、5 条第三方依赖告警，与 1.0.5 的告警类别一致；原因见下方历史记录。
+
+以上检查验证软件行为与布局，不代表真实模型理解论文的质量。生成的 1.0.6 XPI 为未签名开发包。
+
+## 1.0.5 历史验证记录
 
 测试材料为人工构造的网页和 PDF；模型接口为本机模拟服务。没有使用真实 API Key，没有以模拟输出验证模型的科学理解质量。内嵌页面另外使用真实 Firefox 只读访问 DeepSeek 官方登录页；没有登录用户账号或发送真实聊天。
 

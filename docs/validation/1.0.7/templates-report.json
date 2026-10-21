@@ -1,0 +1,15 @@
+{
+  "version": "1.0.7",
+  "checks": [
+    "Web defaults to Article even for a review title; the visible selector opens the chosen template and preserves legacy edits",
+    "Templates keep independent drafts, save separately without a key, and reset only the active draft",
+    "Web fill, copy, template editing and note provenance follow the chosen type; keyboard switching preserves drafts and never sends or calls an API",
+    "Title changes preserve the user's choice; new papers and edited URLs default to Article without classification",
+    "API Review reading uses its saved template in a single request and persists the selected plan with the note",
+    "Loading the next API paper resets type overrides and selects the Article template",
+    "Both saved templates survive reload; English Review controls fit a 280px sidebar within the 90% setting width"
+  ],
+  "errors": [],
+  "requests": 2,
+  "note": "Synthetic material and local API/chat fixtures only. Model judgment and diagram rendering quality are not evaluated."
+}

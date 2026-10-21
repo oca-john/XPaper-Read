@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "XPaper-Read",
-  "version": "1.0.5",
+  "version": "1.0.8",
   "author": "Xi Zhang",
   "description": "用 DeepSeek 按你的研究框架精读网页和 PDF，在侧栏梳理问题、设计、实施、结果逻辑链与贡献。",
   "browser_specific_settings": {
@@ -9,22 +9,46 @@
       "id": "xpaper-read@local.extension",
       "strict_min_version": "142.0",
       "data_collection_permissions": {
-        "required": ["websiteContent", "authenticationInfo"]
+        "required": [
+          "websiteContent",
+          "authenticationInfo"
+        ]
       }
     }
   },
-  "permissions": ["activeTab", "scripting", "storage", "tabs", "clipboardWrite", "webRequest", "webRequestBlocking", "https://api.deepseek.com/*", "https://chat.deepseek.com/*"],
-  "optional_permissions": ["https://*/*", "http://*/*"],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs",
+    "clipboardWrite",
+    "webRequest",
+    "webRequestBlocking",
+    "https://api.deepseek.com/*",
+    "https://chat.deepseek.com/*"
+  ],
+  "optional_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": [
+      "background.js"
+    ],
     "persistent": false
   },
-  "content_scripts": [{
-    "matches": ["https://chat.deepseek.com/*"],
-    "js": ["deepseek.js"],
-    "all_frames": true,
-    "run_at": "document_idle"
-  }],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chat.deepseek.com/*"
+      ],
+      "js": [
+        "deepseek.js"
+      ],
+      "all_frames": true,
+      "run_at": "document_idle"
+    }
+  ],
   "browser_action": {
     "default_title": "打开 XPaper-Read",
     "default_icon": "icons/book.svg"
@@ -41,7 +65,9 @@
   },
   "commands": {
     "_execute_sidebar_action": {
-      "suggested_key": { "default": "Alt+Shift+Y" },
+      "suggested_key": {
+        "default": "Alt+Shift+Y"
+      },
       "description": "打开文献精读侧栏"
     }
   },

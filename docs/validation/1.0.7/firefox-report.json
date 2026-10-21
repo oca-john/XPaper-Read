@@ -1,0 +1,1765 @@
+{
+  "extensionVersion": "1.0.7",
+  "checks": [
+    "Installed unmodified Firefox MV2 extension and opened native Firefox sidebar",
+    "Integrated DeepSeek panel is the default native sidebar view",
+    "Native Firefox defaults to Article; the top selector updates only the chosen prompt and opens the matching editor without classification",
+    "Native sidebar follows Firefox's actual dark/light preference changes and supports a fixed override",
+    "Real Firefox sidebar resizes from 300 to 1000 px with a full-height chat and full-width panels",
+    "Native modes share the compact header, horizontal Version 1.0.7 badge and 25px footer that stays fixed during scrolling",
+    "Native appearance switches language, dark mode and both in-panel/native sidebar icons, then resets to blue",
+    "Native focus toggle collapses every extension top control and restores the default view",
+    "Native Firefox saves Review separately and retains the Article template",
+    "Native Settings subtabs switch correctly; the compact template expands on click and collapses on Save",
+    "Native scripting permission + Readability extracted current article without API transmission",
+    "Real extension CSP permits local mock SSE and sanitizes generated Markdown",
+    "Completed summary persisted locally",
+    "Native Firefox detects Review from supplied material and sends only the Review template to the local API fixture",
+    "Direct URL from Firefox PDF viewer is downloaded and parsed",
+    "Native sidebar rendered and sent one selected PDF page as a data image",
+    "PDF URL without extension falls back from blocked content injection to file parsing"
+  ],
+  "layouts": [
+    {
+      "frame": {
+        "bottom": 934.000030517578,
+        "height": 668.4000244140625,
+        "left": 14.899993896484377,
+        "right": 283.1000061035156,
+        "top": 265.6000061035156,
+        "width": 268.20001220703125,
+        "x": 14.899993896484377,
+        "y": 265.6000061035156
+      },
+      "height": 959,
+      "main": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 298,
+        "top": 72,
+        "width": 298,
+        "x": 0,
+        "y": 72
+      },
+      "notes": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 298,
+        "top": 934,
+        "width": 298,
+        "x": 0,
+        "y": 934
+      },
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 298,
+        "top": 72,
+        "width": 298,
+        "x": 0,
+        "y": 72
+      },
+      "width": 298
+    },
+    {
+      "frame": {
+        "bottom": 934.0000152587892,
+        "height": 734.9666748046875,
+        "left": 26.899993896484375,
+        "right": 511.1000061035156,
+        "top": 199.03334045410156,
+        "width": 484.2000122070313,
+        "x": 26.899993896484375,
+        "y": 199.03334045410156
+      },
+      "height": 959,
+      "main": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 538,
+        "top": 72,
+        "width": 538,
+        "x": 0,
+        "y": 72
+      },
+      "notes": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 538,
+        "top": 934,
+        "width": 538,
+        "x": 0,
+        "y": 934
+      },
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 538,
+        "top": 72,
+        "width": 538,
+        "x": 0,
+        "y": 72
+      },
+      "width": 538
+    },
+    {
+      "frame": {
+        "bottom": 934.0000152587892,
+        "height": 734.9666748046875,
+        "left": 49.899993896484375,
+        "right": 948.1000061035156,
+        "top": 199.03334045410156,
+        "width": 898.2000122070312,
+        "x": 49.899993896484375,
+        "y": 199.03334045410156
+      },
+      "height": 959,
+      "main": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 998,
+        "top": 72,
+        "width": 998,
+        "x": 0,
+        "y": 72
+      },
+      "notes": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 998,
+        "top": 934,
+        "width": 998,
+        "x": 0,
+        "y": 934
+      },
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 998,
+        "top": 72,
+        "width": 998,
+        "x": 0,
+        "y": 72
+      },
+      "width": 998
+    },
+    {
+      "frame": {
+        "bottom": 933.9999847412108,
+        "height": 686.5333251953125,
+        "left": 16.899993896484375,
+        "right": 321.1000061035156,
+        "top": 247.46665954589844,
+        "width": 304.20001220703125,
+        "x": 16.899993896484375,
+        "y": 247.46665954589844
+      },
+      "height": 959,
+      "main": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 338,
+        "top": 72,
+        "width": 338,
+        "x": 0,
+        "y": 72
+      },
+      "notes": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 338,
+        "top": 934,
+        "width": 338,
+        "x": 0,
+        "y": 934
+      },
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 338,
+        "top": 72,
+        "width": 338,
+        "x": 0,
+        "y": 72
+      },
+      "width": 338
+    }
+  ],
+  "chromeLayouts": [
+    {
+      "badge": {
+        "bottom": 30,
+        "height": 20,
+        "left": 220,
+        "right": 288,
+        "top": 10,
+        "width": 68,
+        "x": 220,
+        "y": 10
+      },
+      "buttons": [
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 8,
+          "right": 82,
+          "top": 938,
+          "width": 74,
+          "x": 8,
+          "y": 938
+        },
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 87,
+          "right": 140.3333282470703,
+          "top": 938,
+          "width": 53.33332824707031,
+          "x": 87,
+          "y": 938
+        }
+      ],
+      "footer": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 298,
+        "top": 934,
+        "width": 298,
+        "x": 0,
+        "y": 934
+      },
+      "header": {
+        "bottom": 40,
+        "height": 40,
+        "left": 0,
+        "right": 298,
+        "top": 0,
+        "width": 298,
+        "x": 0,
+        "y": 0
+      },
+      "height": 959,
+      "name": "web",
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 298,
+        "top": 72,
+        "width": 298,
+        "x": 0,
+        "y": 72
+      },
+      "tabs": {
+        "bottom": 72,
+        "height": 32,
+        "left": 0,
+        "right": 298,
+        "top": 40,
+        "width": 298,
+        "x": 0,
+        "y": 40
+      },
+      "versionLines": [
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 223.4333343505859,
+          "right": 258.3833312988281,
+          "top": 13,
+          "width": 34.94999694824219,
+          "x": 223.4333343505859,
+          "y": 13
+        },
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 262.3833312988281,
+          "right": 284.5500030517578,
+          "top": 13,
+          "width": 22.166671752929688,
+          "x": 262.3833312988281,
+          "y": 13
+        }
+      ],
+      "width": 298
+    },
+    {
+      "badge": {
+        "bottom": 30,
+        "height": 20,
+        "left": 220,
+        "right": 288,
+        "top": 10,
+        "width": 68,
+        "x": 220,
+        "y": 10
+      },
+      "buttons": [
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 8,
+          "right": 61.33332824707031,
+          "top": 938,
+          "width": 53.33332824707031,
+          "x": 8,
+          "y": 938
+        },
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 66.33332824707031,
+          "right": 158.26666259765625,
+          "top": 938,
+          "width": 91.93333435058594,
+          "x": 66.33332824707031,
+          "y": 938
+        }
+      ],
+      "footer": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 298,
+        "top": 934,
+        "width": 298,
+        "x": 0,
+        "y": 934
+      },
+      "header": {
+        "bottom": 40,
+        "height": 40,
+        "left": 0,
+        "right": 298,
+        "top": 0,
+        "width": 298,
+        "x": 0,
+        "y": 0
+      },
+      "height": 959,
+      "name": "read",
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 298,
+        "top": 72,
+        "width": 298,
+        "x": 0,
+        "y": 72
+      },
+      "tabs": {
+        "bottom": 72,
+        "height": 32,
+        "left": 0,
+        "right": 298,
+        "top": 40,
+        "width": 298,
+        "x": 0,
+        "y": 40
+      },
+      "versionLines": [
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 223.4333343505859,
+          "right": 258.3833312988281,
+          "top": 13,
+          "width": 34.94999694824219,
+          "x": 223.4333343505859,
+          "y": 13
+        },
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 262.3833312988281,
+          "right": 284.5500030517578,
+          "top": 13,
+          "width": 22.166671752929688,
+          "x": 262.3833312988281,
+          "y": 13
+        }
+      ],
+      "width": 298
+    },
+    {
+      "badge": {
+        "bottom": 30,
+        "height": 20,
+        "left": 220,
+        "right": 288,
+        "top": 10,
+        "width": 68,
+        "x": 220,
+        "y": 10
+      },
+      "buttons": [
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 8,
+          "right": 82,
+          "top": 938,
+          "width": 74,
+          "x": 8,
+          "y": 938
+        }
+      ],
+      "footer": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 298,
+        "top": 934,
+        "width": 298,
+        "x": 0,
+        "y": 934
+      },
+      "header": {
+        "bottom": 40,
+        "height": 40,
+        "left": 0,
+        "right": 298,
+        "top": 0,
+        "width": 298,
+        "x": 0,
+        "y": 0
+      },
+      "height": 959,
+      "name": "history",
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 298,
+        "top": 72,
+        "width": 298,
+        "x": 0,
+        "y": 72
+      },
+      "tabs": {
+        "bottom": 72,
+        "height": 32,
+        "left": 0,
+        "right": 298,
+        "top": 40,
+        "width": 298,
+        "x": 0,
+        "y": 40
+      },
+      "versionLines": [
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 223.4333343505859,
+          "right": 258.3833312988281,
+          "top": 13,
+          "width": 34.94999694824219,
+          "x": 223.4333343505859,
+          "y": 13
+        },
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 262.3833312988281,
+          "right": 284.5500030517578,
+          "top": 13,
+          "width": 22.166671752929688,
+          "x": 262.3833312988281,
+          "y": 13
+        }
+      ],
+      "width": 298
+    },
+    {
+      "badge": {
+        "bottom": 30,
+        "height": 20,
+        "left": 220,
+        "right": 288,
+        "top": 10,
+        "width": 68,
+        "x": 220,
+        "y": 10
+      },
+      "buttons": [
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 8,
+          "right": 82,
+          "top": 938,
+          "width": 74,
+          "x": 8,
+          "y": 938
+        }
+      ],
+      "footer": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 298,
+        "top": 934,
+        "width": 298,
+        "x": 0,
+        "y": 934
+      },
+      "header": {
+        "bottom": 40,
+        "height": 40,
+        "left": 0,
+        "right": 298,
+        "top": 0,
+        "width": 298,
+        "x": 0,
+        "y": 0
+      },
+      "height": 959,
+      "name": "settings",
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 298,
+        "top": 72,
+        "width": 298,
+        "x": 0,
+        "y": 72
+      },
+      "tabs": {
+        "bottom": 72,
+        "height": 32,
+        "left": 0,
+        "right": 298,
+        "top": 40,
+        "width": 298,
+        "x": 0,
+        "y": 40
+      },
+      "versionLines": [
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 223.4333343505859,
+          "right": 258.3833312988281,
+          "top": 13,
+          "width": 34.94999694824219,
+          "x": 223.4333343505859,
+          "y": 13
+        },
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 262.3833312988281,
+          "right": 284.5500030517578,
+          "top": 13,
+          "width": 22.166671752929688,
+          "x": 262.3833312988281,
+          "y": 13
+        }
+      ],
+      "width": 298
+    },
+    {
+      "badge": {
+        "bottom": 30,
+        "height": 20,
+        "left": 460,
+        "right": 528,
+        "top": 10,
+        "width": 68,
+        "x": 460,
+        "y": 10
+      },
+      "buttons": [
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 8,
+          "right": 82,
+          "top": 938,
+          "width": 74,
+          "x": 8,
+          "y": 938
+        },
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 87,
+          "right": 140.3333282470703,
+          "top": 938,
+          "width": 53.33332824707031,
+          "x": 87,
+          "y": 938
+        }
+      ],
+      "footer": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 538,
+        "top": 934,
+        "width": 538,
+        "x": 0,
+        "y": 934
+      },
+      "header": {
+        "bottom": 40,
+        "height": 40,
+        "left": 0,
+        "right": 538,
+        "top": 0,
+        "width": 538,
+        "x": 0,
+        "y": 0
+      },
+      "height": 959,
+      "name": "web",
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 538,
+        "top": 72,
+        "width": 538,
+        "x": 0,
+        "y": 72
+      },
+      "tabs": {
+        "bottom": 72,
+        "height": 32,
+        "left": 0,
+        "right": 538,
+        "top": 40,
+        "width": 538,
+        "x": 0,
+        "y": 40
+      },
+      "versionLines": [
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 463.433349609375,
+          "right": 498.3833465576172,
+          "top": 13,
+          "width": 34.94999694824219,
+          "x": 463.433349609375,
+          "y": 13
+        },
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 502.3833312988281,
+          "right": 524.5500030517578,
+          "top": 13,
+          "width": 22.166671752929688,
+          "x": 502.3833312988281,
+          "y": 13
+        }
+      ],
+      "width": 538
+    },
+    {
+      "badge": {
+        "bottom": 30,
+        "height": 20,
+        "left": 460,
+        "right": 528,
+        "top": 10,
+        "width": 68,
+        "x": 460,
+        "y": 10
+      },
+      "buttons": [
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 8,
+          "right": 61.33332824707031,
+          "top": 938,
+          "width": 53.33332824707031,
+          "x": 8,
+          "y": 938
+        },
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 66.33332824707031,
+          "right": 158.26666259765625,
+          "top": 938,
+          "width": 91.93333435058594,
+          "x": 66.33332824707031,
+          "y": 938
+        }
+      ],
+      "footer": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 538,
+        "top": 934,
+        "width": 538,
+        "x": 0,
+        "y": 934
+      },
+      "header": {
+        "bottom": 40,
+        "height": 40,
+        "left": 0,
+        "right": 538,
+        "top": 0,
+        "width": 538,
+        "x": 0,
+        "y": 0
+      },
+      "height": 959,
+      "name": "read",
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 538,
+        "top": 72,
+        "width": 538,
+        "x": 0,
+        "y": 72
+      },
+      "tabs": {
+        "bottom": 72,
+        "height": 32,
+        "left": 0,
+        "right": 538,
+        "top": 40,
+        "width": 538,
+        "x": 0,
+        "y": 40
+      },
+      "versionLines": [
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 463.433349609375,
+          "right": 498.3833465576172,
+          "top": 13,
+          "width": 34.94999694824219,
+          "x": 463.433349609375,
+          "y": 13
+        },
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 502.3833312988281,
+          "right": 524.5500030517578,
+          "top": 13,
+          "width": 22.166671752929688,
+          "x": 502.3833312988281,
+          "y": 13
+        }
+      ],
+      "width": 538
+    },
+    {
+      "badge": {
+        "bottom": 30,
+        "height": 20,
+        "left": 460,
+        "right": 528,
+        "top": 10,
+        "width": 68,
+        "x": 460,
+        "y": 10
+      },
+      "buttons": [
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 8,
+          "right": 82,
+          "top": 938,
+          "width": 74,
+          "x": 8,
+          "y": 938
+        }
+      ],
+      "footer": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 538,
+        "top": 934,
+        "width": 538,
+        "x": 0,
+        "y": 934
+      },
+      "header": {
+        "bottom": 40,
+        "height": 40,
+        "left": 0,
+        "right": 538,
+        "top": 0,
+        "width": 538,
+        "x": 0,
+        "y": 0
+      },
+      "height": 959,
+      "name": "history",
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 538,
+        "top": 72,
+        "width": 538,
+        "x": 0,
+        "y": 72
+      },
+      "tabs": {
+        "bottom": 72,
+        "height": 32,
+        "left": 0,
+        "right": 538,
+        "top": 40,
+        "width": 538,
+        "x": 0,
+        "y": 40
+      },
+      "versionLines": [
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 463.433349609375,
+          "right": 498.3833465576172,
+          "top": 13,
+          "width": 34.94999694824219,
+          "x": 463.433349609375,
+          "y": 13
+        },
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 502.3833312988281,
+          "right": 524.5500030517578,
+          "top": 13,
+          "width": 22.166671752929688,
+          "x": 502.3833312988281,
+          "y": 13
+        }
+      ],
+      "width": 538
+    },
+    {
+      "badge": {
+        "bottom": 30,
+        "height": 20,
+        "left": 460,
+        "right": 528,
+        "top": 10,
+        "width": 68,
+        "x": 460,
+        "y": 10
+      },
+      "buttons": [
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 8,
+          "right": 82,
+          "top": 938,
+          "width": 74,
+          "x": 8,
+          "y": 938
+        }
+      ],
+      "footer": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 538,
+        "top": 934,
+        "width": 538,
+        "x": 0,
+        "y": 934
+      },
+      "header": {
+        "bottom": 40,
+        "height": 40,
+        "left": 0,
+        "right": 538,
+        "top": 0,
+        "width": 538,
+        "x": 0,
+        "y": 0
+      },
+      "height": 959,
+      "name": "settings",
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 538,
+        "top": 72,
+        "width": 538,
+        "x": 0,
+        "y": 72
+      },
+      "tabs": {
+        "bottom": 72,
+        "height": 32,
+        "left": 0,
+        "right": 538,
+        "top": 40,
+        "width": 538,
+        "x": 0,
+        "y": 40
+      },
+      "versionLines": [
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 463.433349609375,
+          "right": 498.3833465576172,
+          "top": 13,
+          "width": 34.94999694824219,
+          "x": 463.433349609375,
+          "y": 13
+        },
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 502.3833312988281,
+          "right": 524.5500030517578,
+          "top": 13,
+          "width": 22.166671752929688,
+          "x": 502.3833312988281,
+          "y": 13
+        }
+      ],
+      "width": 538
+    },
+    {
+      "badge": {
+        "bottom": 30,
+        "height": 20,
+        "left": 920,
+        "right": 988,
+        "top": 10,
+        "width": 68,
+        "x": 920,
+        "y": 10
+      },
+      "buttons": [
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 8,
+          "right": 82,
+          "top": 938,
+          "width": 74,
+          "x": 8,
+          "y": 938
+        },
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 87,
+          "right": 140.3333282470703,
+          "top": 938,
+          "width": 53.33332824707031,
+          "x": 87,
+          "y": 938
+        }
+      ],
+      "footer": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 998,
+        "top": 934,
+        "width": 998,
+        "x": 0,
+        "y": 934
+      },
+      "header": {
+        "bottom": 40,
+        "height": 40,
+        "left": 0,
+        "right": 998,
+        "top": 0,
+        "width": 998,
+        "x": 0,
+        "y": 0
+      },
+      "height": 959,
+      "name": "web",
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 998,
+        "top": 72,
+        "width": 998,
+        "x": 0,
+        "y": 72
+      },
+      "tabs": {
+        "bottom": 72,
+        "height": 32,
+        "left": 0,
+        "right": 998,
+        "top": 40,
+        "width": 998,
+        "x": 0,
+        "y": 40
+      },
+      "versionLines": [
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 923.433349609375,
+          "right": 958.3833465576172,
+          "top": 13,
+          "width": 34.94999694824219,
+          "x": 923.433349609375,
+          "y": 13
+        },
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 962.38330078125,
+          "right": 984.5499725341796,
+          "top": 13,
+          "width": 22.166671752929688,
+          "x": 962.38330078125,
+          "y": 13
+        }
+      ],
+      "width": 998
+    },
+    {
+      "badge": {
+        "bottom": 30,
+        "height": 20,
+        "left": 920,
+        "right": 988,
+        "top": 10,
+        "width": 68,
+        "x": 920,
+        "y": 10
+      },
+      "buttons": [
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 8,
+          "right": 61.33332824707031,
+          "top": 938,
+          "width": 53.33332824707031,
+          "x": 8,
+          "y": 938
+        },
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 66.33332824707031,
+          "right": 158.26666259765625,
+          "top": 938,
+          "width": 91.93333435058594,
+          "x": 66.33332824707031,
+          "y": 938
+        }
+      ],
+      "footer": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 998,
+        "top": 934,
+        "width": 998,
+        "x": 0,
+        "y": 934
+      },
+      "header": {
+        "bottom": 40,
+        "height": 40,
+        "left": 0,
+        "right": 998,
+        "top": 0,
+        "width": 998,
+        "x": 0,
+        "y": 0
+      },
+      "height": 959,
+      "name": "read",
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 998,
+        "top": 72,
+        "width": 998,
+        "x": 0,
+        "y": 72
+      },
+      "tabs": {
+        "bottom": 72,
+        "height": 32,
+        "left": 0,
+        "right": 998,
+        "top": 40,
+        "width": 998,
+        "x": 0,
+        "y": 40
+      },
+      "versionLines": [
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 923.433349609375,
+          "right": 958.3833465576172,
+          "top": 13,
+          "width": 34.94999694824219,
+          "x": 923.433349609375,
+          "y": 13
+        },
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 962.38330078125,
+          "right": 984.5499725341796,
+          "top": 13,
+          "width": 22.166671752929688,
+          "x": 962.38330078125,
+          "y": 13
+        }
+      ],
+      "width": 998
+    },
+    {
+      "badge": {
+        "bottom": 30,
+        "height": 20,
+        "left": 920,
+        "right": 988,
+        "top": 10,
+        "width": 68,
+        "x": 920,
+        "y": 10
+      },
+      "buttons": [
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 8,
+          "right": 82,
+          "top": 938,
+          "width": 74,
+          "x": 8,
+          "y": 938
+        }
+      ],
+      "footer": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 998,
+        "top": 934,
+        "width": 998,
+        "x": 0,
+        "y": 934
+      },
+      "header": {
+        "bottom": 40,
+        "height": 40,
+        "left": 0,
+        "right": 998,
+        "top": 0,
+        "width": 998,
+        "x": 0,
+        "y": 0
+      },
+      "height": 959,
+      "name": "history",
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 998,
+        "top": 72,
+        "width": 998,
+        "x": 0,
+        "y": 72
+      },
+      "tabs": {
+        "bottom": 72,
+        "height": 32,
+        "left": 0,
+        "right": 998,
+        "top": 40,
+        "width": 998,
+        "x": 0,
+        "y": 40
+      },
+      "versionLines": [
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 923.433349609375,
+          "right": 958.3833465576172,
+          "top": 13,
+          "width": 34.94999694824219,
+          "x": 923.433349609375,
+          "y": 13
+        },
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 962.38330078125,
+          "right": 984.5499725341796,
+          "top": 13,
+          "width": 22.166671752929688,
+          "x": 962.38330078125,
+          "y": 13
+        }
+      ],
+      "width": 998
+    },
+    {
+      "badge": {
+        "bottom": 30,
+        "height": 20,
+        "left": 920,
+        "right": 988,
+        "top": 10,
+        "width": 68,
+        "x": 920,
+        "y": 10
+      },
+      "buttons": [
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 8,
+          "right": 82,
+          "top": 938,
+          "width": 74,
+          "x": 8,
+          "y": 938
+        }
+      ],
+      "footer": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 998,
+        "top": 934,
+        "width": 998,
+        "x": 0,
+        "y": 934
+      },
+      "header": {
+        "bottom": 40,
+        "height": 40,
+        "left": 0,
+        "right": 998,
+        "top": 0,
+        "width": 998,
+        "x": 0,
+        "y": 0
+      },
+      "height": 959,
+      "name": "settings",
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 998,
+        "top": 72,
+        "width": 998,
+        "x": 0,
+        "y": 72
+      },
+      "tabs": {
+        "bottom": 72,
+        "height": 32,
+        "left": 0,
+        "right": 998,
+        "top": 40,
+        "width": 998,
+        "x": 0,
+        "y": 40
+      },
+      "versionLines": [
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 923.433349609375,
+          "right": 958.3833465576172,
+          "top": 13,
+          "width": 34.94999694824219,
+          "x": 923.433349609375,
+          "y": 13
+        },
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 962.38330078125,
+          "right": 984.5499725341796,
+          "top": 13,
+          "width": 22.166671752929688,
+          "x": 962.38330078125,
+          "y": 13
+        }
+      ],
+      "width": 998
+    },
+    {
+      "badge": {
+        "bottom": 30,
+        "height": 20,
+        "left": 260,
+        "right": 328,
+        "top": 10,
+        "width": 68,
+        "x": 260,
+        "y": 10
+      },
+      "buttons": [
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 8,
+          "right": 82,
+          "top": 938,
+          "width": 74,
+          "x": 8,
+          "y": 938
+        },
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 87,
+          "right": 140.3333282470703,
+          "top": 938,
+          "width": 53.33332824707031,
+          "x": 87,
+          "y": 938
+        }
+      ],
+      "footer": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 338,
+        "top": 934,
+        "width": 338,
+        "x": 0,
+        "y": 934
+      },
+      "header": {
+        "bottom": 40,
+        "height": 40,
+        "left": 0,
+        "right": 338,
+        "top": 0,
+        "width": 338,
+        "x": 0,
+        "y": 0
+      },
+      "height": 959,
+      "name": "web",
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 338,
+        "top": 72,
+        "width": 338,
+        "x": 0,
+        "y": 72
+      },
+      "tabs": {
+        "bottom": 72,
+        "height": 32,
+        "left": 0,
+        "right": 338,
+        "top": 40,
+        "width": 338,
+        "x": 0,
+        "y": 40
+      },
+      "versionLines": [
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 263.433349609375,
+          "right": 298.3833465576172,
+          "top": 13,
+          "width": 34.94999694824219,
+          "x": 263.433349609375,
+          "y": 13
+        },
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 302.3833312988281,
+          "right": 324.5500030517578,
+          "top": 13,
+          "width": 22.166671752929688,
+          "x": 302.3833312988281,
+          "y": 13
+        }
+      ],
+      "width": 338
+    },
+    {
+      "badge": {
+        "bottom": 30,
+        "height": 20,
+        "left": 260,
+        "right": 328,
+        "top": 10,
+        "width": 68,
+        "x": 260,
+        "y": 10
+      },
+      "buttons": [
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 8,
+          "right": 61.33332824707031,
+          "top": 938,
+          "width": 53.33332824707031,
+          "x": 8,
+          "y": 938
+        },
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 66.33332824707031,
+          "right": 158.26666259765625,
+          "top": 938,
+          "width": 91.93333435058594,
+          "x": 66.33332824707031,
+          "y": 938
+        }
+      ],
+      "footer": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 338,
+        "top": 934,
+        "width": 338,
+        "x": 0,
+        "y": 934
+      },
+      "header": {
+        "bottom": 40,
+        "height": 40,
+        "left": 0,
+        "right": 338,
+        "top": 0,
+        "width": 338,
+        "x": 0,
+        "y": 0
+      },
+      "height": 959,
+      "name": "read",
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 338,
+        "top": 72,
+        "width": 338,
+        "x": 0,
+        "y": 72
+      },
+      "tabs": {
+        "bottom": 72,
+        "height": 32,
+        "left": 0,
+        "right": 338,
+        "top": 40,
+        "width": 338,
+        "x": 0,
+        "y": 40
+      },
+      "versionLines": [
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 263.433349609375,
+          "right": 298.3833465576172,
+          "top": 13,
+          "width": 34.94999694824219,
+          "x": 263.433349609375,
+          "y": 13
+        },
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 302.3833312988281,
+          "right": 324.5500030517578,
+          "top": 13,
+          "width": 22.166671752929688,
+          "x": 302.3833312988281,
+          "y": 13
+        }
+      ],
+      "width": 338
+    },
+    {
+      "badge": {
+        "bottom": 30,
+        "height": 20,
+        "left": 260,
+        "right": 328,
+        "top": 10,
+        "width": 68,
+        "x": 260,
+        "y": 10
+      },
+      "buttons": [
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 8,
+          "right": 82,
+          "top": 938,
+          "width": 74,
+          "x": 8,
+          "y": 938
+        }
+      ],
+      "footer": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 338,
+        "top": 934,
+        "width": 338,
+        "x": 0,
+        "y": 934
+      },
+      "header": {
+        "bottom": 40,
+        "height": 40,
+        "left": 0,
+        "right": 338,
+        "top": 0,
+        "width": 338,
+        "x": 0,
+        "y": 0
+      },
+      "height": 959,
+      "name": "history",
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 338,
+        "top": 72,
+        "width": 338,
+        "x": 0,
+        "y": 72
+      },
+      "tabs": {
+        "bottom": 72,
+        "height": 32,
+        "left": 0,
+        "right": 338,
+        "top": 40,
+        "width": 338,
+        "x": 0,
+        "y": 40
+      },
+      "versionLines": [
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 263.433349609375,
+          "right": 298.3833465576172,
+          "top": 13,
+          "width": 34.94999694824219,
+          "x": 263.433349609375,
+          "y": 13
+        },
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 302.3833312988281,
+          "right": 324.5500030517578,
+          "top": 13,
+          "width": 22.166671752929688,
+          "x": 302.3833312988281,
+          "y": 13
+        }
+      ],
+      "width": 338
+    },
+    {
+      "badge": {
+        "bottom": 30,
+        "height": 20,
+        "left": 260,
+        "right": 328,
+        "top": 10,
+        "width": 68,
+        "x": 260,
+        "y": 10
+      },
+      "buttons": [
+        {
+          "bottom": 956,
+          "height": 18,
+          "left": 8,
+          "right": 82,
+          "top": 938,
+          "width": 74,
+          "x": 8,
+          "y": 938
+        }
+      ],
+      "footer": {
+        "bottom": 959,
+        "height": 25,
+        "left": 0,
+        "right": 338,
+        "top": 934,
+        "width": 338,
+        "x": 0,
+        "y": 934
+      },
+      "header": {
+        "bottom": 40,
+        "height": 40,
+        "left": 0,
+        "right": 338,
+        "top": 0,
+        "width": 338,
+        "x": 0,
+        "y": 0
+      },
+      "height": 959,
+      "name": "settings",
+      "panel": {
+        "bottom": 959,
+        "height": 887,
+        "left": 0,
+        "right": 338,
+        "top": 72,
+        "width": 338,
+        "x": 0,
+        "y": 72
+      },
+      "tabs": {
+        "bottom": 72,
+        "height": 32,
+        "left": 0,
+        "right": 338,
+        "top": 40,
+        "width": 338,
+        "x": 0,
+        "y": 40
+      },
+      "versionLines": [
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 263.433349609375,
+          "right": 298.3833465576172,
+          "top": 13,
+          "width": 34.94999694824219,
+          "x": 263.433349609375,
+          "y": 13
+        },
+        {
+          "bottom": 27,
+          "height": 14,
+          "left": 302.3833312988281,
+          "right": 324.5500030517578,
+          "top": 13,
+          "width": 22.166671752929688,
+          "x": 302.3833312988281,
+          "y": 13
+        }
+      ],
+      "width": 338
+    }
+  ],
+  "note": "Stock Firefox, isolated headless profile; local simulated model API. Embedded public DeepSeek page is observed without signing in or sending a message.",
+  "version": "158.0",
+  "liveTopPage": {
+    "excerpt": "By signing up or logging in, you consent to DeepSeek's \nTerms of Use and \nPrivacy Policy.\nForgot password?\nSign up\nLog in\nLog in with Google\nLogin with Apple\n浙ICP备2023025841号\n · \nContact us",
+    "title": "DeepSeek - Into the Unknown",
+    "url": "https://chat.deepseek.com/sign_in"
+  },
+  "browserThemeChanges": [
+    {
+      "mediaDark": true,
+      "preference": "browser",
+      "resolved": "dark"
+    },
+    {
+      "mediaDark": false,
+      "preference": "browser",
+      "resolved": "light"
+    },
+    {
+      "mediaDark": true,
+      "preference": "browser",
+      "resolved": "dark"
+    }
+  ],
+  "liveEmbed": {
+    "connected": true,
+    "status": "请在此登录，或在 Firefox 标签页登录后刷新。登录状态由 DeepSeek 和 Firefox 管理。",
+    "authenticated": false
+  },
+  "iconObservation": [
+    {
+      "icon": null,
+      "iconSource": null,
+      "iconURL": null,
+      "iconUrl": "moz-extension://e821dd19-1019-4379-880e-73af3f48154d/icons/book-purple.svg",
+      "key": "xpaper-read_local_extension-sidebar-action"
+    }
+  ],
+  "darkControls": [
+    {
+      "appearance": "auto",
+      "background": "rgb(39, 28, 48)",
+      "color": "rgb(188, 154, 219)",
+      "selector": ".appearance-option.active"
+    },
+    {
+      "appearance": "auto",
+      "background": "rgb(34, 25, 42)",
+      "color": "rgb(179, 169, 188)",
+      "selector": ".tab:not(.active)"
+    },
+    {
+      "appearance": "auto",
+      "background": "rgb(39, 28, 48)",
+      "color": "rgb(188, 154, 219)",
+      "selector": ".color-swatch.active"
+    }
+  ],
+  "status": "passed"
+}

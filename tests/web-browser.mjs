@@ -73,7 +73,7 @@ try {
   assert.doesNotMatch(await page.locator("#web-prompt").inputValue(), /private|utm_source/);
   assert.equal((await page.evaluate(() => browser.storage.local.get(null))).apiKey, undefined);
   check("DeepSeek iframe is the default panel, uses no API key and keeps article identifiers");
-  assert.equal(await page.locator(".version > span").last().textContent(), "1.0.5");
+  assert.equal(await page.locator(".version > span").last().textContent(), "1.0.8");
   assert.equal(await page.locator(".web-site-bar").count(), 0);
   assert.ok(await page.locator("#web-status").evaluate(el => getComputedStyle(el).clipPath === "inset(50%)"));
   assert.equal(await page.evaluate(() => openedTabs.length), 0);
@@ -91,12 +91,12 @@ try {
     layouts.push(layout);
     assert.ok(Math.abs(layout.panel.y - layout.main.y) < 1, `${width}px: chat panel starts at the top of the available space`);
     assert.ok(Math.abs(layout.panel.height - layout.main.height) < 1, `${width}px: chat panel fills the available height`);
-    assert.ok(layout.frame.x < 1 && Math.abs(layout.frame.width - width) < 1, `${width}px: chat fills the sidebar width`);
+    assert.ok(Math.abs(layout.frame.x) < 1 && Math.abs(layout.frame.width - width) < 1, `${width}px: chat fills the sidebar width`);
     assert.ok(layout.frame.height > 450, `${width}px: chat keeps a usable height`);
     assert.ok(Math.abs(layout.frame.bottom - layout.notes.top) < 1, `${width}px: notes sit directly below the chat`);
     assert.ok(layout.notes.bottom <= layout.height + 1 && layout.scrollWidth <= width, `${width}px: controls stay on screen without horizontal scrolling`);
   }
-  check("Chat fills width and remaining height across 300–1200 px, including the former 520 px breakpoint");
+  check("Chat fills the sidebar width and remaining height across 300–1200 px");
 
   // Shared chrome must keep the same geometry when changing modes or scrolling.
   for (const width of [280, 300, 520, 1200]) {
@@ -182,7 +182,7 @@ try {
     return [css.fontSize, css.lineHeight, css.padding, css.backgroundColor, css.borderRadius];
   }), webNotice);
   await page.locator("#tab-web").click();
-  check("Four modes share a 72px header, horizontal Version 1.0.5 badge, 25px fixed footer and compact buttons at 280–1200px");
+  check("Four modes share a 72px header, horizontal Version 1.0.8 badge, 25px fixed footer and compact buttons at 280–1200px");
   check("Settings subtabs center their labels, distinguish inset/raised states and expose the matching fixed footer");
 
   assert.match(await page.locator(".web-mode-note").textContent(), /登录.*免费/);
@@ -196,7 +196,7 @@ try {
     for (const selector of ["#app-header", "#main-tabs", "#web-top"]) assert.ok(await page.locator(selector).isHidden());
     const rect = await page.locator("#web-frame").boundingBox();
     assert.equal(rect.y, 0);
-    assert.equal(rect.width, width);
+    assert.ok(Math.abs(rect.width - width) < 1);
     assert.ok(rect.height > 800);
     const toggle = await page.locator("#web-focus-toggle").boundingBox();
     assert.ok(toggle.x + toggle.width <= width - 88, "focused toggle leaves the official top-right action area clear");
@@ -258,7 +258,7 @@ try {
   await page.locator("#settings-tab-about").click();
   assert.ok(await page.locator("#settings-api").isHidden());
   assert.ok(await page.locator("#settings-about").isVisible());
-  assert.equal(await page.locator("#settings-about .pill").textContent(), "1.0.5");
+  assert.equal(await page.locator("#settings-about .pill").textContent(), "1.0.8");
   assert.equal(await page.locator(".author-name").textContent(), "Xi Zhang");
   assert.equal(await page.locator(".author-card a").getAttribute("href"), "mailto:oca-john@hotmail.com");
   await page.locator("#settings-tab-about").press("ArrowLeft");
@@ -325,7 +325,8 @@ try {
   for (const width of [300, 520, 1200]) {
     await page.setViewportSize({ width, height: 900 });
     for (const [name, selectors] of [
-      ["read", [".source-picker", "#result-card"]],
+      ["web", ["#web-top", ".web-frame-wrap"]],
+      ["read", [".source-picker", "#result-card", "#summarize", ".paper-type-row", "#read-type-status"]],
       ["history", [".history-item"]],
       ["settings", ["#template-text", ".settings-tabs"]],
     ]) {
@@ -340,10 +341,12 @@ try {
       assert.ok(layout.panel.x < 1 && Math.abs(layout.panel.width - layout.width) < 1, `${name} at ${width}px: panel fills width`);
       assert.ok(layout.scrollWidth <= width, `${name} at ${width}px: no horizontal overflow`);
       for (const content of layout.content) {
-        if (name === "settings") {
-          assert.ok(Math.abs(content.width - layout.contentWidth * .90) < 1, `${width}px: settings content uses 90% of the available sidebar width`);
-          assert.ok(Math.abs(content.x - (layout.contentWidth - content.right)) < 1, `${width}px: settings content is centered`);
-        } else assert.ok(content.x <= 18 && layout.contentWidth - content.right <= 18, `${name} at ${width}px: content has only small internal gutters`);
+        if (name === "web") {
+          assert.ok(Math.abs(content.width - layout.contentWidth) < 1 && Math.abs(content.x) < 1, `${width}px: DeepSeek content fills the sidebar width`);
+          continue;
+        }
+        assert.ok(Math.abs(content.width - layout.contentWidth * .90) < 1, `${name} at ${width}px: content uses 90% of the available sidebar width`);
+        assert.ok(Math.abs(content.x - (layout.contentWidth - content.right)) < 1, `${name} at ${width}px: content is centered ${JSON.stringify(layout)}`);
       }
     }
     for (const name of ["appearance", "api", "about", "template"]) {
@@ -359,7 +362,7 @@ try {
   await page.locator("#tab-web").click();
   assert.equal(await frame.locator("#sent-count").textContent(), "1", "resizing and visiting every panel must preserve the chat");
   await page.screenshot({ path: join(root, "artifacts", "qa", "sidebar-web-wide.png"), fullPage: true });
-  check("Settings subtabs and their controls use a centered 90% content width at 300, 520 and 1200 px; API reading and notes retain full-width panels");
+  check("DeepSeek uses full width; API reading, notes and Settings retain centered 90% content at 300, 520 and 1200 px");
 
   await page.setViewportSize({ width: 410, height: 900 });
   await page.evaluate(async () => {
@@ -437,7 +440,7 @@ try {
   assert.ok(await page.locator("#web-fill").isEnabled());
   check("Blank pages cannot appear chat-ready; SPA composer changes enable the toolbar");
   await writeFile(join(root, "artifacts", "qa", "web-browser-report.json"), JSON.stringify({
-    version: "1.0.5", browser: await browser.version(), checks, errors, layouts, chromeLayouts,
+    version: "1.0.8", browser: await browser.version(), checks, errors, layouts, chromeLayouts,
     note: "Cross-origin iframe and bundled content bridge tested against a local DeepSeek UI fixture. Live authenticated DeepSeek not tested.",
   }, null, 2));
 } finally { await browser.close(); await server.close(); }

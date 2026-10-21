@@ -162,6 +162,43 @@ try {
             const actions = el.querySelector(".web-login-actions").getBoundingClientRect();
             return hint.right < actions.left && actions.right <= innerWidth - 10;
           }), "login and reload stay to the right of the hint in both languages");
+          if (["web", "read"].includes(name)) {
+            const prefix = name === "web" ? "web" : "read";
+            for (const type of ["review", "article"]) {
+              await page.locator(`#${prefix}-paper-type`).press(type === "review" ? "End" : "Home");
+              await page.waitForFunction(prefix => getComputedStyle(document.getElementById(`${prefix}-paper-type`), "::before").backgroundColor === getComputedStyle(document.querySelector(".appearance-preview")).backgroundColor, prefix);
+              await page.waitForFunction(prefix => {
+                const group = document.getElementById(`${prefix}-paper-type`);
+                const thumb = getComputedStyle(group, "::before");
+                return group.dataset.paperType === "article" ? new DOMMatrixReadOnly(thumb.transform).m41 === 0
+                  : Math.abs(new DOMMatrixReadOnly(thumb.transform).m41 - parseFloat(thumb.width) - 3) < .1;
+              }, prefix);
+              const selector = await page.locator(`#${prefix}-paper-type`).evaluate(group => {
+                const active = group.querySelector(".active");
+                const box = group.getBoundingClientRect(), edit = document.getElementById("web-edit-template").getBoundingClientRect();
+                const labels = [...group.querySelectorAll(".paper-type-label")];
+                const thumb = getComputedStyle(group, "::before");
+                const labelBox = active.getBoundingClientRect();
+                const thumbLeft = box.left + group.clientLeft + parseFloat(thumb.left) + new DOMMatrixReadOnly(thumb.transform).m41;
+                const thumbWidth = parseFloat(thumb.width) + (thumb.boxSizing === "border-box" ? 0 : parseFloat(thumb.borderLeftWidth) + parseFloat(thumb.borderRightWidth));
+                return { width: box.width, left: box.left, right: box.right, top: box.top, bottom: box.bottom, edit: edit.toJSON(),
+                  thumbLeft, thumbRight: thumbLeft + thumbWidth, labelLeft: labelBox.left, labelRight: labelBox.right,
+                  fits: labels.every(label => label.scrollWidth <= label.clientWidth),
+                  equal: Math.abs(labels[0].getBoundingClientRect().width - labels[1].getBoundingClientRect().width) < 1,
+                  well: getComputedStyle(group).boxShadow, active: thumb.boxShadow,
+                  radius: parseFloat(getComputedStyle(group).borderRadius), height: box.height, thumbRadius: parseFloat(thumb.borderRadius),
+                  color: getComputedStyle(active).color, themeColor: getComputedStyle(document.querySelector(".tab.active")).color };
+              });
+              assert.ok(selector.fits && selector.equal && selector.left >= 0 && selector.right <= width, JSON.stringify(selector));
+              assert.ok(selector.well.includes("inset") && selector.active.includes("inset"));
+              assert.notEqual(selector.active, selector.well);
+              assert.ok(selector.radius >= selector.height / 2 && selector.thumbRadius >= selector.height / 2);
+              assert.ok(Math.abs(selector.thumbLeft - selector.labelLeft) < .75 && Math.abs(selector.thumbRight - selector.labelRight) < .75, `Thumb aligns with its label: ${JSON.stringify(selector)}`);
+              assert.ok(selector.thumbLeft - selector.left >= 3.5 && selector.right - selector.thumbRight >= 3.5, `Thumb stays clear of the outer border: ${JSON.stringify(selector)}`);
+              assert.equal(selector.color, selector.themeColor);
+              if (name === "web" && width === 1000) assert.ok(selector.left > selector.edit.right && selector.top < selector.edit.bottom && selector.bottom > selector.edit.top);
+            }
+          }
           assert.equal(layout.height, 25); assert.equal(layout.bottom, 900); assert.equal(layout.mainTop, 72);
           assert.ok(layout.well.includes("inset") && layout.inactive.includes("inset"));
           assert.notEqual(layout.active, layout.inactive);
@@ -178,6 +215,29 @@ try {
   check("All 12 color/theme combinations in both languages fit 280px and 1000px across all four modes");
   check("Language and theme buttons are equal-width and centered; Notes and Settings headings share a uniform unnumbered style and fonts retain the 1pt increase");
   check("Main navigation has inset surfaces and raised selection; body contrast exceeds 7:1 and highlight text 4.5:1");
+  check("Web and API capsules fit both languages in every palette; Article and Review thumbs align with their labels and stay inside the border");
+
+  for (const [width, language, theme, accent, type, file] of [
+    [640, "zh-CN", "light", "blue", "article", "web-type-light-blue.png"],
+    [410, "zh-CN", "dark", "purple", "review", "web-type-dark-purple.png"],
+    [280, "en", "light", "green", "review", "web-type-narrow-en.png"],
+  ]) {
+    await page.setViewportSize({ width, height: 900 });
+    await openAppearance();
+    await page.locator(`[data-language-choice="${language}"]`).click();
+    await page.locator(`[data-theme-choice="${theme}"]`).click();
+    await page.locator(`[data-accent-choice="${accent}"]`).click();
+    await page.locator("#tab-web").click();
+    await page.locator("#web-paper-type").press(type === "review" ? "End" : "Home");
+    await page.locator("#web-paper-type").evaluate(el => el.blur());
+    await page.locator("#web-top").screenshot({ path: join(root, "artifacts/qa", file), animations: "disabled" });
+    if (width === 640) {
+      await page.locator("#tab-read").click();
+      await page.locator("#read-paper-type").press("End");
+      await page.locator("#read-paper-type").evaluate(el => el.blur());
+      await page.screenshot({ path: join(root, "artifacts/qa/api-type-capsule.png"), animations: "disabled" });
+    }
+  }
 
   await page.setViewportSize({ width: 410, height: 900 });
   await openAppearance(); await page.locator('[data-language-choice="en"]').click();
@@ -223,5 +283,5 @@ try {
   assert.equal(await page.locator("html").getAttribute("data-theme-preference"), "browser");
   assert.deepEqual(errors, []);
   check("External preference updates synchronize the sidebar, and reset restores Chinese/browser/blue");
-  await writeFile(join(root, "artifacts/qa/appearance-report.json"), JSON.stringify({ version: "1.0.5", checks, errors, layouts }, null, 2));
+  await writeFile(join(root, "artifacts/qa/appearance-report.json"), JSON.stringify({ version: "1.0.8", checks, errors, layouts }, null, 2));
 } finally { await browser.close(); await server.close(); }

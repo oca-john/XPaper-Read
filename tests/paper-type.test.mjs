@@ -54,21 +54,31 @@ test("routing selects one saved template when known or manually set, otherwise i
   assert.match(pending.template, /不默认套用 Article/);
 });
 
-test("web prompts classify by actual material, route reviews, preserve scope and fit the composer at maximum template size", () => {
+test("web prompts default to Article and use only the user-selected template without classification", () => {
   const review = prepareWebSource("https://papers.example/42", "Neural plasticity: a review");
-  const prompt = buildWebPrompt(review, settings);
+  const defaultPrompt = buildWebPrompt(review, settings);
+  assert.match(defaultPrompt, /ARTICLE_CUSTOM_ONLY/);
+  assert.doesNotMatch(defaultPrompt, /REVIEW_CUSTOM_ONLY|先判断文章类型|判断依据|初判|复核|类型.*冲突/);
+  assert.equal(buildWebPrompt(review, settings, "auto"), defaultPrompt);
+  const prompt = buildWebPrompt(review, settings, "review");
   assert.match(prompt, /REVIEW_CUSTOM_ONLY/);
   assert.doesNotMatch(prompt, /ARTICLE_CUSTOM_ONLY/);
   assert.match(prompt, /无法访问正文/);
-  assert.match(prompt, /先判断文章类型/);
-  const both = buildWebPrompt(prepareWebSource("https://papers.example/?id=" + "a".repeat(7900)), { template: "A".repeat(20000), reviewTemplate: "R".repeat(20000) });
+  assert.doesNotMatch(prompt, /先判断文章类型|判断依据|初判|复核|类型.*冲突/);
+  assert.match(buildWebPrompt(prepareWebSource("https://papers.example/unknown"), settings, "review"), /REVIEW_CUSTOM_ONLY/);
+  assert.match(buildWebPrompt(review, { ...settings, reviewTemplate: "" }), /ARTICLE_CUSTOM_ONLY/);
+  assert.throws(() => buildWebPrompt(review, { ...settings, reviewTemplate: "" }, "review"));
+});
+
+test("web prompts with a maximum-length selected template and URL fit the composer", () => {
+  const prompt = buildWebPrompt(prepareWebSource("https://papers.example/?id=" + "a".repeat(7900)), { template: "A".repeat(20000), reviewTemplate: "R".repeat(20000) }, "review");
   const dom = new JSDOM('<textarea id="chat-input"></textarea>', { url: "https://chat.deepseek.com/" });
   Object.defineProperty(dom.window.HTMLElement.prototype, "getClientRects", { value: () => [{ width: 300, height: 90 }] });
-  fillComposer(both, dom.window.document);
-  assert.equal(dom.window.document.querySelector("textarea").value, both);
-  assert.ok(both.length < 60000);
+  fillComposer(prompt, dom.window.document);
+  assert.equal(dom.window.document.querySelector("textarea").value, prompt);
+  assert.ok(prompt.length < 60000);
+  assert.doesNotMatch(prompt, /A{20000}/);
   dom.window.close();
-  assert.throws(() => selectReadingPlan(review, { ...settings, reviewTemplate: "" }));
 });
 
 test("Review preset handles subtype, evidence provenance, disagreements and hierarchical diagram source", () => {

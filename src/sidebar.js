@@ -1,5 +1,5 @@
 import { DEFAULT_SETTINGS, DEFAULT_ARTICLE_TEMPLATE, DEFAULT_REVIEW_TEMPLATE, LIMITS } from "./core/defaults.js";
-import { selectReadingPlan, readingTypeLabel } from "./core/paper-type.js";
+import { selectReadingPlan } from "./core/paper-type.js";
 import { normalizeEndpoint, validateSettings, testConnection } from "./core/api.js";
 import { makeManualSource, looksLikePdf, permissionOrigin, sourceText, sourceStats, sourceMeta, planReading, validateSource, publicSourceUrl } from "./core/source.js";
 import { summarize } from "./core/summarize.js";
@@ -8,6 +8,7 @@ import { loadSettings, saveSettings, clearKey, loadHistory, saveReading, clearHi
 import { renderMarkdown, exportMarkdown } from "./render.js";
 import { initializeWebPanel } from "./web-sidebar.js";
 import { initializeAppearance } from "./appearance.js";
+import { initializePaperTypeSwitch } from "./paper-type-switch.js";
 import { registerStaticUI, uiText, uiAttr, translate, getLanguage } from "./i18n.js";
 
 registerStaticUI(document);
@@ -22,6 +23,7 @@ let templateEditing = false, historyAll = false, historyRevision = 0;
 let templateKind = "article";
 const templateDrafts = { article: "", review: "" };
 const templateKey = kind => kind === "review" ? "reviewTemplate" : "template";
+const readTypeSwitch = initializePaperTypeSwitch($("read-paper-type"), updateReadingType);
 
 function toast(message) {
   uiText($("toast"), message); $("toast").hidden = false;
@@ -158,7 +160,7 @@ function authorize(url) {
 async function runRead(permission, task) {
   if (state.busy) return;
   clearError(); busy(true, "正在读取文献…");
-  $("read-paper-type").value = "auto";
+  readTypeSwitch.setValue("article");
   state.source = null; showSource();
   state.controller = new AbortController();
   try {
@@ -239,10 +241,8 @@ function showSource() {
 }
 
 function updateReadingType() {
-  const plan = selectReadingPlan(state.source || {}, state.settings, $("read-paper-type").value);
-  uiText($("read-type-status"), state.source ? readingTypeLabel(plan) : "读取材料后自动判断 Article / Review，也可手动选择。");
-  const labels = !state.source || plan.type === "unknown" ? ["先判断文章类型，再使用对应精读框架。"]
-    : plan.type === "review" ? ["综述范围", "组织框架", "主题证据", "共识分歧", "缺口贡献"]
+  uiText($("read-type-status"), readTypeSwitch.value === "review" ? "已选择：Review文章" : "已选择：Article文章");
+  const labels = readTypeSwitch.value === "review" ? ["综述范围", "组织框架", "主题证据", "共识分歧", "缺口贡献"]
       : ["领域问题", "设计巧思", "实施路径", "结果链条", "研究贡献"];
   $("reading-framework").replaceChildren();
   for (const [index, label] of labels.entries()) {
@@ -323,7 +323,7 @@ async function generate(permission) {
     await permission;
     state.controller.signal.throwIfAborted();
     const { source, settings, apiKey } = state;
-    const paperType = $("read-paper-type").value;
+    const paperType = readTypeSwitch.value;
     const readingPlan = selectReadingPlan(source, settings, paperType);
     state.record = {
       id: crypto.randomUUID(), source: sourceMeta(source), model: settings.model,
@@ -433,8 +433,7 @@ document.addEventListener("click", event => {
   if (templateEditing && event.target !== $("template-text") && !event.target.closest?.('label[for="template-text"]')) finishTemplateEditing();
 });
 window.addEventListener("blur", () => { if (templateEditing) finishTemplateEditing(); });
-$("edit-template").addEventListener("click", () => editTemplate(selectReadingPlan(state.source || {}, state.settings, $("read-paper-type").value).type));
-$("read-paper-type").addEventListener("change", updateReadingType);
+$("edit-template").addEventListener("click", () => editTemplate(readTypeSwitch.value));
 const templateChoices = [...document.querySelectorAll("[data-template-kind]")];
 for (const button of templateChoices) {
   button.addEventListener("click", () => selectTemplate(button.dataset.templateKind));

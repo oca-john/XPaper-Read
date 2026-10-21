@@ -1,7 +1,7 @@
-import { buildWebPrompt, prepareWebSource, DEEPSEEK_URL, DEEPSEEK_ORIGIN, WEB_CHANNEL, isDeepSeekUrl } from "./core/web.js";
+import { buildWebPrompt, prepareWebSource, selectWebReadingPlan, DEEPSEEK_URL, DEEPSEEK_ORIGIN, WEB_CHANNEL, isDeepSeekUrl } from "./core/web.js";
 import { saveReading } from "./storage.js";
 import { uiText } from "./i18n.js";
-import { selectReadingPlan, readingTypeLabel } from "./core/paper-type.js";
+import { initializePaperTypeSwitch } from "./paper-type-switch.js";
 
 export function initializeWebPanel({ getSettings, getTab, onRecord, onEditTemplate, toast }) {
   const $ = id => document.getElementById(id);
@@ -10,6 +10,7 @@ export function initializeWebPanel({ getSettings, getTab, onRecord, onEditTempla
   let connected = false, composerReady = false, loaded = false, handshakeTimer, statusTimer;
   let source = null, lastTabUrl = "", lastReading = null, noteSource = null;
   let lastTabTitle = "", followingTab = true;
+  const typeSwitch = initializePaperTypeSwitch($("web-paper-type"), () => refreshPrompt());
   let filling = false, conversationUrl = DEEPSEEK_URL, helloRevision = 0;
 
   function status(message, error = false) {
@@ -26,9 +27,7 @@ export function initializeWebPanel({ getSettings, getTab, onRecord, onEditTempla
   function refreshPrompt() {
     try {
       source = prepareWebSource($("web-url").value, $("web-title").value);
-      const plan = selectReadingPlan(source, getSettings(), $("web-paper-type").value);
-      $("web-prompt").value = buildWebPrompt(source, getSettings(), plan.mode);
-      uiText($("web-type-status"), readingTypeLabel(plan));
+      $("web-prompt").value = buildWebPrompt(source, getSettings(), typeSwitch.value);
       $("web-paper-title").textContent = source.title;
       $("web-paper-title").title = source.url;
       $("web-domain").textContent = new URL(source.url).hostname;
@@ -37,14 +36,13 @@ export function initializeWebPanel({ getSettings, getTab, onRecord, onEditTempla
       source = null; $("web-prompt").value = "";
       uiText($("web-source-hint"), error.message);
       $("web-domain").textContent = "";
-      uiText($("web-type-status"), "类型待确认，模型取得材料后先判断再选模板");
       uiText($("web-paper-title"), "打开论文网页，或在下方填写网址");
     }
     updateButtons();
   }
   function useTab(tab = getTab()) {
     if (!tab?.url || isDeepSeekUrl(tab.url)) return;
-    if (tab.url !== lastTabUrl) $("web-paper-type").value = "auto";
+    if (tab.url !== lastTabUrl) typeSwitch.setValue("article");
     $("web-url").value = tab.url; $("web-title").value = tab.title || "当前文献";
     lastTabUrl = tab.url; lastTabTitle = tab.title || ""; followingTab = true;
     refreshPrompt();
@@ -55,7 +53,7 @@ export function initializeWebPanel({ getSettings, getTab, onRecord, onEditTempla
   }
   function readingSnapshot() {
     const captured = structuredClone(source);
-    const readingPlan = selectReadingPlan(captured, getSettings(), $("web-paper-type").value);
+    const readingPlan = selectWebReadingPlan(getSettings(), typeSwitch.value);
     return { source: captured, template: readingPlan.template, readingPlan };
   }
   function send(command, extra = {}, timeout = 6000) {
@@ -140,11 +138,10 @@ export function initializeWebPanel({ getSettings, getTab, onRecord, onEditTempla
   });
   for (const id of ["web-title", "web-url"]) $(id).addEventListener("input", () => {
     followingTab = false;
-    $("web-paper-type").value = "auto";
+    if (id === "web-url") typeSwitch.setValue("article");
     refreshPrompt();
   });
-  $("web-paper-type").addEventListener("change", refreshPrompt);
-  $("web-edit-template").addEventListener("click", () => onEditTemplate(selectReadingPlan(source || {}, getSettings(), $("web-paper-type").value).type));
+  $("web-edit-template").addEventListener("click", () => onEditTemplate(typeSwitch.value));
 
   function editNote(text = "") {
     noteSource = lastReading || (source ? readingSnapshot() : null);

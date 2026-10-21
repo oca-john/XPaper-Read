@@ -1,5 +1,7 @@
 # XPaper-Read 1.0.5 项目归档
 
+> 当前开发状态（2026-10-21）：`source/` 已更新为 1.0.8，网页版与 API 共用 Article / Review 胶囊切换。DeepSeek 使用全宽，其他页面内容保持 90% 宽度；胶囊 Review 滑块的偏移已修正。当前重建产物为 `source/artifacts/XPaper-Read-1.0.8.xpi` 和 `source/artifacts/XPaper-Read-1.0.8-source.zip`，验证见 [验证记录](VALIDATION.md)。以下内容是 1.0.5 归档时的历史记录；外层原始 1.0.5 ZIP / XPI 不代表当前源码。
+
 归档日期：2026-10-21。
 
 ## 保留内容
